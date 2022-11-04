@@ -14,25 +14,32 @@ namespace CodeLouisvilleUnitTestProjectTests
         [Fact]
         public void VehicleParameterlessConstructorTest()
         {
+            Vehicle vehicle = new Vehicle();
             //arrange
-            throw new NotImplementedException();
+           
             //act
 
             //assert
-
+            //Assert.True(true, "Toyota not a make");
+            vehicle.Should().NotBeNull();
         }
 
         //Verify the parameterized constructor successfully creates a new
         //object of type Vehicle, and instantiates all public properties
         //to the provided values.
-        [Fact]
+        [Fact] 
         public void VehicleConstructorTest()
         {
             //arrange
-            throw new NotImplementedException();
+            Vehicle vehicle = new Vehicle(4, 10,"Toyota", "Camry", 30);
+
+
             //act
+            
 
             //assert
+            Assert.True(true, "Toyota not a make");
+            vehicle.Should().Be(vehicle);
 
         }
 
@@ -42,10 +49,17 @@ namespace CodeLouisvilleUnitTestProjectTests
         public void AddGasParameterlessFillsGasToMax()
         {
             //arrange
-            throw new NotImplementedException();
+            Vehicle vehicle = new Vehicle();
+
+
             //act
+            vehicle.AddGas();
 
             //assert
+
+            vehicle.GasLevel.Should().NotBeEmpty();
+
+
 
         }
 
@@ -55,10 +69,15 @@ namespace CodeLouisvilleUnitTestProjectTests
         public void AddGasWithParameterAddsSuppliedAmountOfGas()
         {
             //arrange
-            throw new NotImplementedException();
-            //act
+            Vehicle vehicle = new Vehicle(4, 10, "", "", 30);
 
-            //assert
+
+            //act
+            vehicle.AddGas(10);
+
+            //assert5
+
+            vehicle.GasLevel.Should().Be("100%"); 
 
         }
 
@@ -68,25 +87,43 @@ namespace CodeLouisvilleUnitTestProjectTests
         public void AddingTooMuchGasThrowsGasOverflowException()
         {
             //arrange
-            throw new NotImplementedException();
+            //Vehicle vehicle = new Vehicle(4, 10, "Toyota", "Camry", 30);
+
+
             //act
+           
+            Action act = () => new Vehicle(4, 11, "", "", 30);
+
+            act.Should().Throw(GasOverfillException);
+
 
             //assert
-
+            //vehicle.GasLevel.Should().BeApproximately(10, 0.03);
+            vehicle.GasLevel.Should().Be("100%"); 
+            throw new GasOverfillException("You made the gas tank overflow.");
+               
         }
 
         //Using a Theory (or data-driven test), verify that the GasLevel
         //property returns the correct percentage when the gas level is
         //at 0%, 25%, 50%, 75%, and 100%.
         [Theory]
-        [InlineData("MysteryParamValue")]
-        public void GasLevelPercentageIsCorrectForAmountOfGas(params object[] yourParamsHere)
+        [InlineData("0%", 0)]
+        [InlineData("25%", 2.5)]
+        [InlineData("50%", 5)]
+        [InlineData("75%", 7.5)]
+        [InlineData("100%", 10)]
+        public void GasLevelPercentageIsCorrectForAmountOfGas(string percent, float gasToAdd)
         {
             //arrange
-            throw new NotImplementedException();
+            Vehicle vehicle = new Vehicle(4, 10, "Toyota", "Camry", 30);
+
+            
             //act
+            vehicle.AddGas(gasToAdd);
 
             //assert
+            vehicle.GasLevel.Should().Be(percent);
 
         }
 

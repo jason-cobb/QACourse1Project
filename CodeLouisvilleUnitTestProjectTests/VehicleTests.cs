@@ -89,21 +89,24 @@ namespace CodeLouisvilleUnitTestProjectTests
         public void AddingTooMuchGasThrowsGasOverflowException()
         {
             //arrange
-            //Vehicle vehicle = new Vehicle(4, 10, "Toyota", "Camry", 30);
+            Vehicle vehicle = new Vehicle(4, 10, "Toyota", "Camry", 30);
 
-            Vehicle vehicle = new Vehicle(4, 10, "", "", 30);
-            
-            //act
-            double amountAdded =vehicle.AddGas(11);
-            double capacity = vehicle.GasTankCapacity;
-            
+            //Vehicle vehicle = new Vehicle(4, 10, "", "", 30);
+            ////Vehicle sut = new Vehicle();
+            //GasOverfillException ex =
+            //    Assert.Throws<GasOverfillException>(() => sut.A);
+            ////act
+            //double amountAdded =vehicle.AddGas(11);
+            //double capacity = vehicle.GasTankCapacity;
+            //Assert.Equal(11, ex.
 
 
-            vehicle.GasLevel.Should().Be("100%");
+            //vehicle.GasLevel.Should().Be("100%");
+            //Assert.Throws<> //(GasOverfillException, () => amountAdded > capacity);
             Action act = () => vehicle.AddGas(11);
-            //assert
+            ////assert
             //throw new Exception();
-            act.Should().Throw<Exception>();
+            act.Should().Throw<GasOverfillException>();
 
         }
         //Using a Theory (or data-driven test), verify that the GasLevel
@@ -170,21 +173,30 @@ namespace CodeLouisvilleUnitTestProjectTests
             vehicle.Mileage.Should().Be(0);
             ////assert
             //vehicle.Drive.Should().Be(miles);
-
         }
 
         [Theory]
-        [InlineData("MysteryParamValue")]
-        public void DrivePositiveTests(params object[] yourParamsHere)
+        [InlineData(0.333, 10)]
+        [InlineData(3.333, 100)]
+       // [InlineData(10, 3000)]
+
+        public void DrivePositiveTests(double gasUsed, double miles)        //(params object[] yourParamsHere)
         {
             //arrange
-            throw new NotImplementedException();
-            //act
+            Vehicle vehicle = new Vehicle(4, 10, "Toyota", "Camry", 30);
 
+
+            vehicle.Drive(gasUsed);
+            //act
+            miles.Should().BeApproximately(gasUsed * vehicle.MilesPerGallon, 0.01);
             //assert
+            vehicle.GasLevel.Should().Be($"{vehicle._gasRemaining / vehicle.GasTankCapacity}%");
+            vehicle.MilesRemaining.Should().BeApproximately(vehicle._gasRemaining * vehicle.MilesPerGallon, 0.01);
+            vehicle.Mileage.Should().Be(vehicle._mileage);
+            //need to add gas tank empty status report
+
 
         }
-
         //Verify that attempting to change a flat tire using
         //ChangeTireAsync will throw a NoTireToChangeException
         //if there is no flat tire.

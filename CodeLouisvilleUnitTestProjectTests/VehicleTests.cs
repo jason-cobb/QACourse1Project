@@ -51,13 +51,13 @@ namespace CodeLouisvilleUnitTestProjectTests
             //arrange
             Vehicle vehicle = new Vehicle();
 
-
+            
             //act
             vehicle.AddGas();
 
             //assert
 
-            vehicle.GasLevel.Should().NotBeEmpty();
+            vehicle.GasLevel.Should().Be("100%");
 
 
 
@@ -69,15 +69,17 @@ namespace CodeLouisvilleUnitTestProjectTests
         public void AddGasWithParameterAddsSuppliedAmountOfGas()
         {
             //arrange
-            Vehicle vehicle = new Vehicle(4, 10, "", "", 30);
-
-
+            //Vehicle vehicle = new Vehicle();
+            Vehicle sut = new Vehicle(4, 100, "", "", 30);
+            
             //act
-            vehicle.AddGas(10);
+            
+
+            double newTotal = (sut._gasRemaining + sut.AddGas(5));
 
             //assert5
 
-            vehicle.GasLevel.Should().Be("100%"); 
+            sut.GasLevel.Should().Be($"{newTotal}%"); 
 
         }
 
@@ -89,21 +91,21 @@ namespace CodeLouisvilleUnitTestProjectTests
             //arrange
             //Vehicle vehicle = new Vehicle(4, 10, "Toyota", "Camry", 30);
 
-
+            Vehicle vehicle = new Vehicle(4, 10, "", "", 30);
+            
             //act
-           
-            Action act = () => new Vehicle(4, 11, "", "", 30);
+            double amountAdded =vehicle.AddGas(11);
+            double capacity = vehicle.GasTankCapacity;
+            
 
-            act.Should().Throw(GasOverfillException);
 
-
+            vehicle.GasLevel.Should().Be("100%");
+            Action act = () => vehicle.AddGas(11);
             //assert
-            //vehicle.GasLevel.Should().BeApproximately(10, 0.03);
-            vehicle.GasLevel.Should().Be("100%"); 
-            throw new GasOverfillException("You made the gas tank overflow.");
-               
-        }
+            //throw new Exception();
+            act.Should().Throw<Exception>();
 
+        }
         //Using a Theory (or data-driven test), verify that the GasLevel
         //property returns the correct percentage when the gas level is
         //at 0%, 25%, 50%, 75%, and 100%.
@@ -149,15 +151,25 @@ namespace CodeLouisvilleUnitTestProjectTests
          *      is correct, and that the total mileage on the vehicle is 
          *      correct. Verify that the status reports the car is out of gas.
         */
-        [Theory]
-        [InlineData("MysteryParamValue")]
-        public void DriveNegativeTests(params object[] yourParamsHere)
-        {
-            //arrange
-            throw new NotImplementedException();
-            //act
+       // [Theory]
+        //[InlineData("MysteryParamValue")]
+        // [InlineData(MilesRemaining, 0)]
+        //[InlineData(_hasFlatTire)]
+        [Fact]
+        public void DriveNegativeTests()//(string Drive[], double miles)
+        { //throw new NotImplementedException();
+          //arrange
+          //Vehicle vehicle = new Vehicle(4, 10, "Toyota", "Camry", 30);
+            Vehicle vehicle = new Vehicle();
 
-            //assert
+            ////act
+            vehicle._gasRemaining = 0;
+            vehicle.MilesRemaining.Should().Be(0);
+            
+            vehicle._hasFlatTire = true;
+            vehicle.Mileage.Should().Be(0);
+            ////assert
+            //vehicle.Drive.Should().Be(miles);
 
         }
 

@@ -49,7 +49,7 @@ namespace CodeLouisvilleUnitTestProjectTests
         public void AddGasParameterlessFillsGasToMax()
         {
             //arrange
-            Vehicle vehicle = new Vehicle();
+            Vehicle vehicle = new Vehicle(4, 10, "","", 30);
 
             
             //act
@@ -194,7 +194,7 @@ namespace CodeLouisvilleUnitTestProjectTests
             vehicle.MilesRemaining.Should().BeApproximately(vehicle._gasRemaining * vehicle.MilesPerGallon, 0.01);
             vehicle.Mileage.Should().Be(vehicle._mileage);
             //need to add gas tank empty status report
-
+            
 
         }
         //Verify that attempting to change a flat tire using
@@ -204,10 +204,14 @@ namespace CodeLouisvilleUnitTestProjectTests
         public async Task ChangeTireWithoutFlatTest()
         {
             //arrange
-            throw new NotImplementedException();
-            //act
+            Vehicle vehicle = new Vehicle(4, 10, "", "", 30);
+            //////assert
+            
+            Action act = () => vehicle.ChangeTireAsync();
+            
+            //act.Should().Throw<NoTireToChangeException>();
 
-            //assert
+           
 
         }
 
@@ -217,8 +221,14 @@ namespace CodeLouisvilleUnitTestProjectTests
         public async Task ChangeTireSuccessfulTest()
         {
             //arrange
-            throw new NotImplementedException();
-            //act
+            Vehicle vehicle = new Vehicle();
+           vehicle._hasFlatTire.Should().BeFalse();
+
+            Action act = () => vehicle.ChangeTireAsync();
+            //await Task.Delay(1000);
+            //assert
+            //act.Should().NotThrow<NoTireToChangeException>;
+                      //act
 
             //assert
 

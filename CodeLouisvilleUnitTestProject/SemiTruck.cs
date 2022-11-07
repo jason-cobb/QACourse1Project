@@ -7,10 +7,11 @@
         /// <summary>
         /// Creates a new SemiTruck that always has 18 Tires
         /// </summary>
-        public SemiTruck()
+        public SemiTruck(int tires)
         {
+            tires = 18;
             //YOUR CODE HERE: 
-            throw new NotImplementedException();
+            
         }
 
         /// <summary>
@@ -20,9 +21,10 @@
         public void LoadCargo(CargoItem item)
         {
             //YOUR CODE HERE
-            throw new NotImplementedException();
-        }
+            Cargo.Add(item);
             
+        }
+
         /// <summary>
         /// Attempts to remove the first item with the passed name from the Cargo and return it
         /// </summary>
@@ -32,7 +34,17 @@
         public CargoItem UnloadCargo(string name)
         {
             //YOUR CODE HERE
-            throw new NotImplementedException();
+            if
+                (name != null)
+            {
+                Cargo[0].Name = name;
+                Cargo.RemoveAt(0);
+                return Cargo[0];
+            }
+            else
+            {
+                throw new ArgumentException();
+            }
         }
 
         /// <summary>
@@ -43,7 +55,14 @@
         public List<CargoItem> GetCargoItemsByName(string name)
         {
             //YOUR CODE HERE
-            throw new NotImplementedException();
+
+            
+            List<CargoItem> cargoItems = new List<CargoItem>();
+            foreach (CargoItem cargoItem in cargoItems)
+            {
+                cargoItem.Name = name;
+            }
+            return cargoItems;
         }
 
         /// <summary>
@@ -54,7 +73,13 @@
         public List<CargoItem> GetCargoItemsByPartialDescription(string description)
         {
             //YOUR CODE HERE
-            throw new NotImplementedException();
+
+            List<CargoItem> cargoItems = new List<CargoItem>();
+            foreach (CargoItem cargoItem in cargoItems)
+            {
+                cargoItem.Description = description;
+            }
+            return cargoItems;
         }
 
         /// <summary>
@@ -64,7 +89,13 @@
         public int GetTotalNumberOfItems()
         {
             //YOUR CODE HERE
-            throw new NotImplementedException();
+
+            //Cargo.Count();
+            //return Cargo.Count;
+            int quantitySum = Cargo.Count;
+            return quantitySum;
+           
+
         }
     }
 }

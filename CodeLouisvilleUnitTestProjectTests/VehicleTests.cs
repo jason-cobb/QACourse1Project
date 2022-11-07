@@ -38,7 +38,7 @@ namespace CodeLouisvilleUnitTestProjectTests
             
 
             //assert
-            Assert.True(true, "Toyota not a make");
+            Assert.True(true, "That is not our vehicle.");
             vehicle.Should().Be(vehicle);
 
         }
@@ -164,13 +164,21 @@ namespace CodeLouisvilleUnitTestProjectTests
           //arrange
           //Vehicle vehicle = new Vehicle(4, 10, "Toyota", "Camry", 30);
             Vehicle vehicle = new Vehicle();
-
+            using (new AssertionScope())
             ////act
-            vehicle._gasRemaining = 0;
-            vehicle.MilesRemaining.Should().Be(0);
-            
-            vehicle._hasFlatTire = true;
-            vehicle.Mileage.Should().Be(0);
+            ///
+            {
+                vehicle.Drive(0);
+               // vehicle._gasRemaining = 0;
+                vehicle.MilesRemaining.Should().Be(0, because: "Cannot drive, out of gas.");
+
+
+                //var statusString = "Cannot drive due to flat tire.";
+                //vehicle._hasFlatTire = true;
+                //vehicle.Mileage.Should().Be(0, because: $"{statusString}");
+
+
+            }
             ////assert
             //vehicle.Drive.Should().Be(miles);
         }
@@ -185,7 +193,7 @@ namespace CodeLouisvilleUnitTestProjectTests
             //arrange
             Vehicle vehicle = new Vehicle(4, 10, "Toyota", "Camry", 30);
 
-
+            
             vehicle.Drive(gasUsed);
             //act
             miles.Should().BeApproximately(gasUsed * vehicle.MilesPerGallon, 0.01);
@@ -203,16 +211,23 @@ namespace CodeLouisvilleUnitTestProjectTests
         [Fact]
         public async Task ChangeTireWithoutFlatTest()
         {
+            
             //arrange
             Vehicle vehicle = new Vehicle(4, 10, "", "", 30);
+
             //////assert
-            
+            ///
+            await vehicle.ChangeTireAsync();
+
+
+
             Action act = () => vehicle.ChangeTireAsync();
-            
-            //act.Should().Throw<NoTireToChangeException>();
+            //await Task.Delay(1000);
+            act.Should().Throw<NoTireToChangeException>();
 
-           
 
+
+            //act.should().throw<notiretochangeexception>();
         }
 
         //Verify that ChangeTireAsync can successfully
@@ -222,17 +237,17 @@ namespace CodeLouisvilleUnitTestProjectTests
         {
             //arrange
             Vehicle vehicle = new Vehicle();
-           vehicle._hasFlatTire.Should().BeFalse();
+            vehicle._hasFlatTire = true;
+            //vehicle._hasFlatTire.Should().BeTrue();
 
             Action act = () => vehicle.ChangeTireAsync();
-            //await Task.Delay(1000);
+            
+           //not sure where to put await - many fails
             //assert
-            //act.Should().NotThrow<NoTireToChangeException>;
-                      //act
+            act.Should().NotThrow<NoTireToChangeException>();
+                     
 
-            //assert
-
-        }
+           }
 
         //BONUS: Write a unit test that verifies that a flat
         //tire will occur after a certain number of miles.

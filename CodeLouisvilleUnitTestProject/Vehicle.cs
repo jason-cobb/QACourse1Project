@@ -23,6 +23,12 @@
         private double _flatTireChance => 0.0001 * NumberOfTires;
         #endregion
 
+        //public void ReadGasRemaining()
+        //{
+        //    _gasRemaining = gasRemining;
+        //}
+        //public double gasRemaining { get; }
+
         public Vehicle()
             : this(0, 0, "", "", 0)
         { }
@@ -54,6 +60,7 @@
         /// <exception cref="GasOverfillException"> Thrown if the amount of gas added exceeds the capacity of the tank</exception>
         public double AddGas(float amount)
         {
+            
             double newTotal = _gasRemaining + amount;
             if (newTotal > GasTankCapacity)
                 throw new GasOverfillException(amount, GasTankCapacity);
@@ -64,6 +71,8 @@
 
         public string Drive(double miles)
         {
+            double milesRemaining = MilesRemaining;
+            //this._hasFlatTire = _hasFlatTire;
             bool ableToDrive = false;
             string statusString;
             if (MilesRemaining == 0)
@@ -113,6 +122,7 @@
             {
                 await Task.Delay(1000);
                 _hasFlatTire = false;
+                
             }
         }
 

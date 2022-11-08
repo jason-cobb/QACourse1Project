@@ -98,10 +98,7 @@ namespace CodeLouisvilleUnitTestProjectTests
             ////act
             //double amountAdded =vehicle.AddGas(11);
             //double capacity = vehicle.GasTankCapacity;
-            //Assert.Equal(11, ex.
-
-
-            //vehicle.GasLevel.Should().Be("100%");
+            vehicle.GasLevel.Should().Be("0%");
             //Assert.Throws<> //(GasOverfillException, () => amountAdded > capacity);
             Action act = () => vehicle.AddGas(11);
             ////assert
@@ -169,14 +166,17 @@ namespace CodeLouisvilleUnitTestProjectTests
             ///
             {
                 vehicle.Drive(0);
-               // vehicle._gasRemaining = 0;
+                Action act = () => vehicle.Drive(0);
+                // vehicle._gasRemaining = 0;
                 vehicle.MilesRemaining.Should().Be(0, because: "Cannot drive, out of gas.");
 
 
                 //var statusString = "Cannot drive due to flat tire.";
                 //vehicle._hasFlatTire = true;
                 //vehicle.Mileage.Should().Be(0, because: $"{statusString}");
-
+                
+                
+                
 
             }
             ////assert
@@ -216,18 +216,17 @@ namespace CodeLouisvilleUnitTestProjectTests
             Vehicle vehicle = new Vehicle(4, 10, "", "", 30);
 
             //////assert
-            ///
-            await vehicle.ChangeTireAsync();
+
+
+            //await vehicle.ChangeTireAsync();
+            Func<Task> runCheck = async () => { await vehicle.ChangeTireAsync(); };
+           
+
+             await runCheck.Should().ThrowAsync<NoTireToChangeException>();
 
 
 
-            Action act = () => vehicle.ChangeTireAsync();
-            //await Task.Delay(1000);
-            act.Should().Throw<NoTireToChangeException>();
-
-
-
-            //act.should().throw<notiretochangeexception>();
+           
         }
 
         //Verify that ChangeTireAsync can successfully
@@ -240,11 +239,11 @@ namespace CodeLouisvilleUnitTestProjectTests
             vehicle._hasFlatTire = true;
             //vehicle._hasFlatTire.Should().BeTrue();
 
-            Action act = () => vehicle.ChangeTireAsync();
+            Func<Task> act = () => vehicle.ChangeTireAsync();
             
            //not sure where to put await - many fails
             //assert
-            act.Should().NotThrow<NoTireToChangeException>();
+            await act.Should().NotThrowAsync<NoTireToChangeException>();
                      
 
            }

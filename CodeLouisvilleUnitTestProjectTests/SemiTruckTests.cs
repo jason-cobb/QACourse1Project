@@ -15,12 +15,19 @@ namespace CodeLouisvilleUnitTestProjectTests
         public void NewSemiTruckIsAVehicleAndHas18TiresAndEmptyCargoTest()
         {
             //arrange
-            throw new NotImplementedException();
+            SemiTruck semiTruck = new SemiTruck();
+
             //act
+
+            //List<CargoItem> cargoItems = new List<CargoItem>();
 
 
             //assert
             
+            semiTruck.Cargo.Should().BeEmpty();
+            semiTruck.Cargo.Should().NotBeNull();
+
+
         }
 
         //Verify that adding a CargoItem using LoadCargo does successfully add
@@ -30,11 +37,20 @@ namespace CodeLouisvilleUnitTestProjectTests
         public void LoadCargoTest()
         {
             //arrange
-            throw new NotImplementedException();
+            
+            SemiTruck semiTruck = new SemiTruck();
+            //var box = semiTruck.Cargo;
+            CargoItem box = new CargoItem();
             //act
-
+           
+            
+            semiTruck.LoadCargo(box);
+            
+            
+            semiTruck.Cargo.Add(box);
             //assert
-
+            semiTruck.Cargo.Should().Contain(box);
+            semiTruck.Cargo.Should().HaveCountGreaterThan(0);
         }
 
         //Verify that unloading a  cargo item that is in the Cargo does

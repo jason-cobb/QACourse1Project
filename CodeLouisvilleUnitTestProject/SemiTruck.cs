@@ -7,11 +7,14 @@
         /// <summary>
         /// Creates a new SemiTruck that always has 18 Tires
         /// </summary>
-        public SemiTruck(int tires)
+        public SemiTruck()
+           : this(18)
+        { }
+        public SemiTruck(int numberOfTires)
         {
-            tires = 18;
-            //YOUR CODE HERE: 
-            
+            Cargo = new List<CargoItem>();
+            NumberOfTires = numberOfTires;
+                
         }
 
         /// <summary>
@@ -21,7 +24,9 @@
         public void LoadCargo(CargoItem item)
         {
             //YOUR CODE HERE
+            var box = item;
             Cargo.Add(item);
+                      
             
         }
 

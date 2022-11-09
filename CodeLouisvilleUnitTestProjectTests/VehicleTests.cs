@@ -14,14 +14,15 @@ namespace CodeLouisvilleUnitTestProjectTests
         [Fact]
         public void VehicleParameterlessConstructorTest()
         {
-            Vehicle vehicle = new Vehicle();
             //arrange
+            Vehicle vehicle = new Vehicle();
            
             //act
 
-            //assert
-            //Assert.True(true, "Toyota not a make");
+            //assert          
+            vehicle.Should().Be(vehicle);
             vehicle.Should().NotBeNull();
+            
         }
 
         //Verify the parameterized constructor successfully creates a new
@@ -35,9 +36,7 @@ namespace CodeLouisvilleUnitTestProjectTests
 
 
             //act
-            
-
-            //assert
+            ////assert
             Assert.True(true, "That is not our vehicle.");
             vehicle.Should().Be(vehicle);
 

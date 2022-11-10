@@ -74,8 +74,8 @@ namespace CodeLouisvilleUnitTestProjectTests
             //act
             
 
-            double newTotal = (sut._gasRemaining + sut.AddGas(5));
-
+            double newTotal = (sut.GasRemaining + sut.AddGas(5));
+            
             //assert5
 
             sut.GasLevel.Should().Be($"{newTotal}%"); 
@@ -90,15 +90,8 @@ namespace CodeLouisvilleUnitTestProjectTests
             //arrange
             Vehicle vehicle = new Vehicle(4, 10, "Toyota", "Camry", 30);
 
-            //Vehicle vehicle = new Vehicle(4, 10, "", "", 30);
-            ////Vehicle sut = new Vehicle();
-            //GasOverfillException ex =
-            //    Assert.Throws<GasOverfillException>(() => sut.A);
-            ////act
-            //double amountAdded =vehicle.AddGas(11);
-            //double capacity = vehicle.GasTankCapacity;
-            vehicle.GasLevel.Should().Be("0%");
-            //Assert.Throws<> //(GasOverfillException, () => amountAdded > capacity);
+           
+            ////act                 
             Action act = () => vehicle.AddGas(11);
             ////assert
             //throw new Exception();
@@ -160,10 +153,10 @@ namespace CodeLouisvilleUnitTestProjectTests
           //arrange
           //Vehicle vehicle = new Vehicle(4, 10, "Toyota", "Camry", 30);
             Vehicle vehicle = new Vehicle();
-            using (new AssertionScope())
+
             ////act
-            ///
-            {
+            
+            
                 vehicle.Drive(0);
                 Action act = () => vehicle.Drive(0);
                 // vehicle._gasRemaining = 0;
@@ -173,35 +166,55 @@ namespace CodeLouisvilleUnitTestProjectTests
                 //var statusString = "Cannot drive due to flat tire.";
                 //vehicle._hasFlatTire = true;
                 //vehicle.Mileage.Should().Be(0, because: $"{statusString}");
-                
-                
-                
-
-            }
+                         
             ////assert
             //vehicle.Drive.Should().Be(miles);
         }
+        [Fact]
+        public void DriveNegativeTestsFlat()//(string Drive[], double miles)
+        {
+            Vehicle vehicle = new Vehicle();
 
+            vehicle.HasFlatTire = true;
+            ////act
+
+            Action act = () => vehicle.Drive(200);
+            // vehicle._gasRemaining = 0;
+            vehicle.HasFlatTire.Should().Be(true, because: " Oh no! Got a flat tire!");
+
+        }
         [Theory]
+        [InlineData(0, 0)]
         [InlineData(0.333, 10)]
         [InlineData(3.333, 100)]
-       // [InlineData(10, 3000)]
+        //[InlineData(10, 3000)]
 
-        public void DrivePositiveTests(double gasUsed, double miles)        //(params object[] yourParamsHere)
+        public void DrivePositiveTests(double gasUsed, double milesDriven)        //(params object[] yourParamsHere)
         {
-            //arrange
-            Vehicle vehicle = new Vehicle(4, 10, "Toyota", "Camry", 30);
+            using (new AssertionScope())
+            {
+                //arrange
+                Vehicle vehicle = new Vehicle(4, 10, "Toyota", "Camry", 30);
+                double startingMileage = vehicle.Mileage;
+                double endingMileage = (vehicle.Mileage + milesDriven); 
+                //vehicle.AddGas();
+                //act
+                Action act = () => vehicle.Drive(milesDriven);
 
-            
-            vehicle.Drive(gasUsed);
-            //act
-            miles.Should().BeApproximately(gasUsed * vehicle.MilesPerGallon, 0.01);
-            //assert
-            vehicle.GasLevel.Should().Be($"{vehicle._gasRemaining / vehicle.GasTankCapacity}%");
-            vehicle.MilesRemaining.Should().BeApproximately(vehicle._gasRemaining * vehicle.MilesPerGallon, 0.01);
-            vehicle.Mileage.Should().Be(vehicle._mileage);
-            //need to add gas tank empty status report
-            
+                
+                
+                //assert
+              
+                milesDriven.Should().BeApproximately(gasUsed * vehicle.MilesPerGallon, 0.01);
+                vehicle.GasLevel.Should().Be($"{vehicle.GasRemaining / vehicle.GasTankCapacity}%");
+                vehicle.MilesRemaining.Should().BeApproximately(vehicle.GasRemaining * vehicle.MilesPerGallon, 0.01);
+                endingMileage.Should().Be(startingMileage + milesDriven);
+
+                
+                
+
+                //need to add gas tank empty status report
+            }
 
         }
         //Verify that attempting to change a flat tire using
@@ -235,7 +248,7 @@ namespace CodeLouisvilleUnitTestProjectTests
         {
             //arrange
             Vehicle vehicle = new Vehicle();
-            vehicle._hasFlatTire = true;
+            vehicle.HasFlatTire = true;
             //vehicle._hasFlatTire.Should().BeTrue();
 
             Func<Task> act = () => vehicle.ChangeTireAsync();

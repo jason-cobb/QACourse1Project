@@ -11,12 +11,23 @@
         public string GasLevel => $"{_gasRemaining / GasTankCapacity * 100}%";
         public double MilesRemaining => _gasRemaining * MilesPerGallon;
         public double Mileage => _mileage;
+        public bool HasFlatTire;
+        public double GasRemaining
+        {
+            get
+            {
+                return _gasRemaining;
+            }
+            set { _gasRemaining = value; }
+        }
         #endregion
 
         #region Private Fields
         public double _gasRemaining;
-        public double _mileage;
-        public bool _hasFlatTire;
+       
+
+        private double _mileage;
+        
         #endregion
 
         #region Private Properties
@@ -60,7 +71,7 @@
         /// <exception cref="GasOverfillException"> Thrown if the amount of gas added exceeds the capacity of the tank</exception>
         public double AddGas(float amount)
         {
-            
+            var gasRemaining = _gasRemaining;
             double newTotal = _gasRemaining + amount;
             if (newTotal > GasTankCapacity)
                 throw new GasOverfillException(amount, GasTankCapacity);
@@ -79,7 +90,7 @@
             {
                 statusString = "Cannot drive, out of gas.";
             }
-            else if (_hasFlatTire)
+            else if (HasFlatTire)
             {
                 statusString = "Cannot drive due to flat tire.";
             }
@@ -107,7 +118,7 @@
                 bool gotFlat = GotFlatTire(miles);
                 if(gotFlat)
                 {
-                    _hasFlatTire = true;
+                    HasFlatTire = true;
                     statusString += " Oh no! Got a flat tire!";
                 }
             }
@@ -116,13 +127,13 @@
 
         public async Task ChangeTireAsync()
         {
-            if (!_hasFlatTire)
+            if (!HasFlatTire)
                 
                 throw new NoTireToChangeException();
             else
             {
                 await Task.Delay(1000);
-                _hasFlatTire = false;
+                HasFlatTire = false;
                 
             }
         }

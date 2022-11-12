@@ -156,11 +156,11 @@ namespace CodeLouisvilleUnitTestProjectTests
             CargoItem tape = new CargoItem() { Name = "Tape", Description = "clear and sticky", Quantity = 30 };
             //semiTruck.Cargo.Add(item);
            
-            ////assert
-
+        
+            ///act
             semiTruck.GetCargoItemsByPartialDescription("tape");
             semiTruck.GetCargoItemsByPartialDescription("x");
-
+            ////assert
             semiTruck.Cargo.Should().NotContain(tape, because: "tape is the name, not description");
 
 
@@ -172,17 +172,23 @@ namespace CodeLouisvilleUnitTestProjectTests
         public void GetTotalNumberOfItemsReturnsSumOfAllQuantities()
         {
             //arrange
+            List<CargoItem> item = new List<CargoItem>();
             SemiTruck semiTruck = new SemiTruck();
-            CargoItem item = new CargoItem() { Name = "Pants", Description = "box of pants", Quantity = 3 };
+            CargoItem pants = new CargoItem() { Name = "Pants", Description = "box of pants", Quantity = 9 };
             CargoItem tape = new CargoItem() { Name = "Tape", Description = "clear and sticky", Quantity = 30 };
-            semiTruck.Cargo.Add(item);
-            semiTruck.Cargo.Add(tape);
 
-            ////assert
+            //act
+            int totalItems = 0;
+            semiTruck.Cargo.Add(pants);
+            semiTruck.Cargo.Add(tape);
+            totalItems = pants.Quantity + tape.Quantity;
 
             semiTruck.GetTotalNumberOfItems();
-            
-            semiTruck.Cargo.Should().HaveCount(33);
+            ////assert
+
+
+
+            totalItems.Should().Be(39);
 
         }
     }

@@ -107,15 +107,38 @@
 
             List<CargoItem> cargoItems = new List<CargoItem>();
             cargoItems = Cargo;
-            int quantity;
-
+            int quantity = 0;
+            int total = 0;
+            int subTotal = 0;
             foreach (CargoItem item in cargoItems)
             {
                 item.Quantity = quantity;
+                subTotal += quantity; 
 
+               
             }
-            return 
-           
+            total = quantity + subTotal;
+            return total;
+            // semiTruck.Cargo.Count
+            //cargoItems = Cargo;
+            //for (int i = 0, i <cargoItems.LongCount, i++)
+
+            //int i = 0;
+             //foreach (CargoItem item in cargoItems)
+
+            //cargoItems.Quantity;
+            // totalQuantity = quantity;
+            //return totalQuantity;
+            //for (int i = 0;i < cargoItems.Count, i++)
+            //{
+            //    quantity += totalQuantity;
+
+            //    return totalQuantity ;
+            //    }
+                //int result = cargoItems.Sum(item);
+
+               
+              
 
         }
     }

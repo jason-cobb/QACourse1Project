@@ -145,8 +145,7 @@ namespace CodeLouisvilleUnitTestProjectTests
         */
        // [Theory]
         //[InlineData("MysteryParamValue")]
-        // [InlineData(MilesRemaining, 0)]
-        //[InlineData(_hasFlatTire)]
+       
         [Fact]
         public void DriveNegativeTests()//(string Drive[], double miles)
         { //throw new NotImplementedException();
@@ -178,9 +177,30 @@ namespace CodeLouisvilleUnitTestProjectTests
             vehicle.HasFlatTire = true;
             ////act
 
-            Action act = () => vehicle.Drive(200);
+            vehicle.Drive(200);
             // vehicle._gasRemaining = 0;
             vehicle.HasFlatTire.Should().Be(true, because: " Oh no! Got a flat tire!");
+
+        }
+        [Fact]
+        public void DriveNegativeTestsUntilRunOutOfGas()//(string Drive[], double miles)
+        {
+            Vehicle vehicle = new Vehicle(4, 10, "Toyota", "Camry", 30);
+            double milesDriven = 300;
+            double gasUsed = 10; 
+            double startingMileage = vehicle.Mileage;
+            double endingMileage = vehicle.Mileage + milesDriven;
+
+            ////act
+
+            Action act = () => vehicle.Drive(3050);
+            // vehicle._gasRemaining = 0;
+            
+
+            milesDriven.Should().BeApproximately(gasUsed * vehicle.MilesPerGallon, 0.01);
+            vehicle.GasLevel.Should().Be($"{vehicle.GasRemaining / vehicle.GasTankCapacity}%");
+            vehicle.MilesRemaining.Should().BeApproximately(vehicle.GasRemaining * vehicle.MilesPerGallon, 0.01);
+            endingMileage.Should().Be(startingMileage + milesDriven);
 
         }
         [Theory]

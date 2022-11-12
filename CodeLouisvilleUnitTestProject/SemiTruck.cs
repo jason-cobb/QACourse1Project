@@ -14,7 +14,7 @@
         {
             Cargo = new List<CargoItem>();
             NumberOfTires = numberOfTires;
-                
+
         }
 
         /// <summary>
@@ -24,10 +24,10 @@
         public void LoadCargo(CargoItem item)
         {
             //YOUR CODE HERE
-            var box = item;
+            //var box = item;
             Cargo.Add(item);
-                      
-            
+
+
         }
 
         /// <summary>
@@ -60,15 +60,21 @@
         public List<CargoItem> GetCargoItemsByName(string name)
         {
             //YOUR CODE HERE
-
-            
             List<CargoItem> cargoItems = new List<CargoItem>();
-            foreach (CargoItem cargoItem in cargoItems)
-            {
-                cargoItem.Name = name;
-            }
-            return cargoItems;
+            // foreach (CargoItem item in Cargo)
+            cargoItems = Cargo;
+                if (name.Equals(cargoItems))
+                {
+                    return cargoItems;
+                }
+
+                else
+                {
+                    return Cargo;
+                }
         }
+
+    
 
         /// <summary>
         ///  Returns all CargoItems who have a description containing the passed description. If no CargoItems have that name, returns an empty list.
@@ -80,10 +86,14 @@
             //YOUR CODE HERE
 
             List<CargoItem> cargoItems = new List<CargoItem>();
-            foreach (CargoItem cargoItem in cargoItems)
+            cargoItems = Cargo;
+            foreach (CargoItem item in cargoItems)
             {
-                cargoItem.Description = description;
+                item.Description = description;
+                
             }
+
+            Cargo.FindAll(item => item.Description == description).ToList();
             return cargoItems;
         }
 
@@ -95,10 +105,16 @@
         {
             //YOUR CODE HERE
 
-            //Cargo.Count();
-            //return Cargo.Count;
-            int quantitySum = Cargo.Count;
-            return quantitySum;
+            List<CargoItem> cargoItems = new List<CargoItem>();
+            cargoItems = Cargo;
+            int quantity;
+
+            foreach (CargoItem item in cargoItems)
+            {
+                item.Quantity = quantity;
+
+            }
+            return 
            
 
         }

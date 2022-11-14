@@ -120,10 +120,7 @@ namespace CodeLouisvilleUnitTestProjectTests
                     car.MilesPerGallon = 22;
                     car.RemovePassengers(passengersStart, removedPassengers);
 
-
-
-                    //milesPerGallon.Should().Be(milesPerGallon - (passengers * 0.2));
-                   // car.NumberOfPassengers.Should().Be(passengersStart - removedPassengers);
+                    car.NumberOfPassengers.Should().BeGreaterThanOrEqualTo(0);
                     milesPerGallon.Should().BeApproximately(car.MilesPerGallon - 0.2 * car.NumberOfPassengers, 0.01);
                     
 

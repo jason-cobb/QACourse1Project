@@ -23,7 +23,7 @@
         #endregion
 
         #region Private Fields
-        public double _gasRemaining;
+        private double _gasRemaining;
        
 
         private double _mileage;
@@ -61,6 +61,7 @@
         {
             _gasRemaining = GasTankCapacity;
             return _gasRemaining;
+            
         }
 
         /// <summary>

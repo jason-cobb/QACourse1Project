@@ -143,48 +143,40 @@ namespace CodeLouisvilleUnitTestProjectTests
          *      is correct, and that the total mileage on the vehicle is 
          *      correct. Verify that the status reports the car is out of gas.
         */
-       // [Theory]
-        //[InlineData("MysteryParamValue")]
+      
        
         [Fact]
-        public void DriveNegativeTests()//(string Drive[], double miles)
+        public void DriveNegativeTestsOutOfGas()//(string Drive[], double miles)
         { //throw new NotImplementedException();
           //arrange
-          //Vehicle vehicle = new Vehicle(4, 10, "Toyota", "Camry", 30);
             Vehicle vehicle = new Vehicle();
 
             ////act
-            
-            
-                vehicle.Drive(0);
-                Action act = () => vehicle.Drive(0);
-                // vehicle._gasRemaining = 0;
-                vehicle.MilesRemaining.Should().Be(0, because: "Cannot drive, out of gas.");
-
-
-                //var statusString = "Cannot drive due to flat tire.";
-                //vehicle._hasFlatTire = true;
-                //vehicle.Mileage.Should().Be(0, because: $"{statusString}");
-                         
+            vehicle.Drive(5);
+                
+                     // Action act = () => vehicle.Drive(0);
+                     //vehicle._gasRemaining = 0;
             ////assert
-            //vehicle.Drive.Should().Be(miles);
+            vehicle.MilesRemaining.Should().Be(0, because: "Cannot drive, out of gas.");
+          
         }
         [Fact]
-        public void DriveNegativeTestsFlat()//(string Drive[], double miles)
-        {
+        public void DriveNegativeTestsHasFlat()//(string Drive[], double miles)
+        {   ///arrange
             Vehicle vehicle = new Vehicle();
 
             vehicle.HasFlatTire = true;
             ////act
 
             vehicle.Drive(200);
-            // vehicle._gasRemaining = 0;
+            
+            ///assert
             vehicle.HasFlatTire.Should().Be(true, because: " Oh no! Got a flat tire!");
 
         }
         [Fact]
         public void DriveNegativeTestsUntilRunOutOfGas()//(string Drive[], double miles)
-        {
+        {   //arrange
             Vehicle vehicle = new Vehicle(4, 10, "Toyota", "Camry", 30);
             double milesDriven = 300;
             double gasUsed = 10; 
@@ -193,16 +185,18 @@ namespace CodeLouisvilleUnitTestProjectTests
 
             ////act
 
-            Action act = () => vehicle.Drive(3050);
-            // vehicle._gasRemaining = 0;
+            vehicle.Drive(3050);
             
-
+            
+            //assert
             milesDriven.Should().BeApproximately(gasUsed * vehicle.MilesPerGallon, 0.01);
             vehicle.GasLevel.Should().Be($"{vehicle.GasRemaining / vehicle.GasTankCapacity}%");
             vehicle.MilesRemaining.Should().BeApproximately(vehicle.GasRemaining * vehicle.MilesPerGallon, 0.01);
             endingMileage.Should().Be(startingMileage + milesDriven);
 
         }
+
+
         [Theory]
         [InlineData(0, 0)]
         [InlineData(0.333, 10)]
@@ -219,7 +213,7 @@ namespace CodeLouisvilleUnitTestProjectTests
                 double endingMileage = (vehicle.Mileage + milesDriven); 
                 //vehicle.AddGas();
                 //act
-                Action act = () => vehicle.Drive(milesDriven);
+                Action act = () => vehicle.Drive(milesDriven);///////////////////
 
                 
                 
@@ -230,10 +224,7 @@ namespace CodeLouisvilleUnitTestProjectTests
                 vehicle.MilesRemaining.Should().BeApproximately(vehicle.GasRemaining * vehicle.MilesPerGallon, 0.01);
                 endingMileage.Should().Be(startingMileage + milesDriven);
 
-                
-                
-
-                //need to add gas tank empty status report
+                //*******need to add gas tank empty status report
             }
 
         }

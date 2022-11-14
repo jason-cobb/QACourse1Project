@@ -102,13 +102,15 @@ namespace CodeLouisvilleUnitTestProjectTests
                 //vehicle.MilesRemaining.Should().BeApproximately(vehicle.GasRemaining * vehicle.MilesPerGallon, 0.01);
 
             }
+        }
 
 
-            [Theory]
-            [InlineData(20.6, 2)]
-            [InlineData(21, 5)]
+        [Theory]
+        [InlineData(21.6, 5, 3)]
+        [InlineData(22, 5, 5)]
+        [InlineData(22, 5, 25)]
 
-            public void RemovePassengersTests(double milesPerGallon, int passengers)
+        public void RemovePassengersTests(double milesPerGallon, int passengersStart, int removedPassengers)
             {
                 using (new AssertionScope())
                 {
@@ -116,12 +118,14 @@ namespace CodeLouisvilleUnitTestProjectTests
                     Car car = new Car();
                     //assert
                     car.MilesPerGallon = 22;
+                    car.RemovePassengers(passengersStart, removedPassengers);
+
 
 
                     //milesPerGallon.Should().Be(milesPerGallon - (passengers * 0.2));
-                    milesPerGallon.Should().BeApproximately(car.MilesPerGallon - 0.2 * passengers, 0.01);
-                    //vehicle.GasLevel.Should().Be($"{vehicle.GasRemaining / vehicle.GasTankCapacity}%");
-                    //vehicle.MilesRemaining.Should().BeApproximately(vehicle.GasRemaining * vehicle.MilesPerGallon, 0.01);
+                   // car.NumberOfPassengers.Should().Be(passengersStart - removedPassengers);
+                    milesPerGallon.Should().BeApproximately(car.MilesPerGallon - 0.2 * car.NumberOfPassengers, 0.01);
+                    
 
                 }
 
@@ -129,7 +133,7 @@ namespace CodeLouisvilleUnitTestProjectTests
 
 
             }
-        }
+      
     }
 }
 

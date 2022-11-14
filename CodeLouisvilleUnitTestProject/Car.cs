@@ -98,18 +98,14 @@ namespace CodeLouisvilleUnitTestProject
 
         }
 
-        public void RemovePassengers(int passengers)
+        public void RemovePassengers(int passengersStart, int removedPassengers)
         {
-            NumberOfPassengers -= passengers;
-            {
-                if (NumberOfPassengers <= 0)
-                {
-                    passengers = 0;
-                }
-                
-            }
+            //passengers = passengersStart - removedPassengers;
+           
+            NumberOfPassengers = Math.Max (passengersStart - removedPassengers, 0);
+            double milesPerGallon = MilesPerGallon - (NumberOfPassengers * 0.2);
 
-            MilesPerGallon += passengers * 0.2;
+            //MilesPerGallon += NumberOfPassengers * 0.2;
 
         }
     }

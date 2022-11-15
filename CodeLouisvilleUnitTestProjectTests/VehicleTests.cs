@@ -16,12 +16,13 @@ namespace CodeLouisvilleUnitTestProjectTests
         {
             //arrange
             Vehicle vehicle = new Vehicle();
-           
+
             //act
 
             //assert          
-            vehicle.Should().Be(vehicle);
-            vehicle.Should().NotBeNull();
+            vehicle.Should().BeOfType<Vehicle>(because: "vehicle instanciates the parameterless Vehicle type.");
+            //vehicle.Should().Be(vehicle);
+            //vehicle.Should().NotBeNull();
             
         }
 
@@ -37,8 +38,8 @@ namespace CodeLouisvilleUnitTestProjectTests
 
             //act
             ////assert
-            Assert.True(true, "That is not our vehicle.");
-            vehicle.Should().Be(vehicle);
+           // Assert.True(true, "That is not our vehicle.");
+            vehicle.Should().BeOfType<Vehicle>(because: "vehicle instanciates the parameters of Vehicle type.");
 
         }
 

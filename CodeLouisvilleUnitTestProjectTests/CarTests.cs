@@ -99,9 +99,9 @@ namespace CodeLouisvilleUnitTestProjectTests
 
 
         [Theory]
-        [InlineData(21.6, 3)]
-        [InlineData(22, 5)]
-        [InlineData(22, 25)]
+        [InlineData(20.6, 3)]
+        [InlineData(21, 5)]
+        [InlineData(21, 25)]
 
         public void RemovePassengersTests(double milesPerGallon, int removedPassengers)
             {
@@ -110,10 +110,11 @@ namespace CodeLouisvilleUnitTestProjectTests
                     //arrange
                     Car car = new Car();
                     //assert
-                    car.MilesPerGallon = 22;
+                    car.MilesPerGallon = 21;
                     car.RemovePassengers(removedPassengers);
+                    
 
-                    car.NumberOfPassengers.Should().BeGreaterThanOrEqualTo(0);
+                    car.NumberOfPassengers.Should().BeInRange(0, 5);// BeGreaterThanOrEqualTo(0)
                     milesPerGallon.Should().BeApproximately(car.MilesPerGallon - 0.2 * car.NumberOfPassengers, 0.01);
                     
 

@@ -45,6 +45,7 @@ namespace CodeLouisvilleUnitTestProjectTests
                 vehicle.NumberOfTires.Should().Be(4);
                 vehicle.MilesPerGallon.Should().Be(30);
                 vehicle.Make.Should().Be("Toyota");
+                vehicle.Model.Should().Be("Camry");
             }
         }
 

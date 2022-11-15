@@ -57,16 +57,11 @@ namespace CodeLouisvilleUnitTestProjectTests
             //arrange
             Vehicle vehicle = new Vehicle(4, 10, "","", 30);
 
-            
             //act
             vehicle.AddGas();
 
             //assert
-
             vehicle.GasLevel.Should().Be("100%");
-
-
-
         }
 
         //Verify that the AddGas method with a parameter adds the
@@ -76,17 +71,16 @@ namespace CodeLouisvilleUnitTestProjectTests
         {
             //arrange
             //Vehicle vehicle = new Vehicle();
-            Vehicle sut = new Vehicle(4, 100, "", "", 30);
-            
+            Vehicle sut = new Vehicle(4, 10, "", "", 30);
+
             //act
+            sut.GasRemaining = 2;
             
-
             double newTotal = (sut.GasRemaining + sut.AddGas(5));
-            
-            //assert5
 
-            sut.GasLevel.Should().Be($"{newTotal}%"); 
-
+            //assert
+           // sut.GasLevel.Should().Be($"{newTotal}%"); 
+            sut.GasRemaining.Should().Be(7);
         }
 
         //Verify that the AddGas method with a parameter will throw

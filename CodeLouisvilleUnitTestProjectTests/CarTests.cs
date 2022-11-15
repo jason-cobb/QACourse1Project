@@ -40,9 +40,9 @@ namespace CodeLouisvilleUnitTestProjectTests
         public async Task IsValidModelForMakeAsyncTest()
         {
             //arrange
-            Car car = new Car();
-            string HONDA = car.Make;
-            string Civic = car.Model;
+            Car CarApiResponse = new Car();
+            string HONDA = CarApiResponse.Make_Name;
+            string Civic = CarApiResponse.Model_Name;
             //string Toyota = car.Model;
 
             //car.Make = Honda;

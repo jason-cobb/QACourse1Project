@@ -10,11 +10,12 @@ namespace CodeLouisvilleUnitTestProject
 {
     public class CarApiResponse
     {
-        public string MakeName { get; set; }
         [JsonPropertyName("Make_Name")]
-       
-        public string ModelName { get; set; }
+        public string Make_Name { get; set; }
+
         [JsonPropertyName("Model_Name")]
+        public string Model_Name { get; set; }
+        
         public string MakeId { get; set; }
 
     }

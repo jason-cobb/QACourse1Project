@@ -26,61 +26,51 @@ namespace CodeLouisvilleUnitTestProject
         {
             NumberOfTires = 4;
             GasTankCapacity = gasTankCapacity;
-            // = make;
-
+           
             MilesPerGallon = milesPerGallon;
-            // HttpClient client = baseUrl;
-
+           
         }
 
-        // HttpClient client = new HttpClient
-        // {
-        //     BaseAddress = new Uri(baseUrl)
-        // };
-        // //var response = await respnse.Content.();
-        //var content = await response.Content.ReadAsStringAsync();
 
         public static async Task<bool> IsValidModelForMakeAsync()
-        {
-            //Car car = new();
-            // string url = "https://vpic.nhtsa.dot.gov/api/vehicles/getmodelsformake/honda?format=json";
+        {   Car CarApiResponse = new Car();
+             //string url = "https://vpic.nhtsa.dot.gov/api/vehicles/getmodelsformake/honda?format=json";
             string baseUrl = "https://vpic.nhtsa.dot.gov/api/vehicles/getmodelsformake/honda?format=json";
+            //var userInput = (Make: honda);
+            var userInput = ("");
 
-            //using (HttpResponseMessage client = await ApiHelper.ApiClient.GetAsync(url))
-            using (var client = new HttpClient())
+            HttpClient client = new HttpClient
             {
-                client.BaseAddress = new Uri(baseUrl);
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Make_Name", "Model_Name");
-                List<CarApiResponse> responseModel;
-                HttpResponseMessage response = await client.GetAsync("");
-                if (response.IsSuccessStatusCode)
-                {
-                    {
-                        var content = await response.Content.ReadAsStringAsync();
-                        var options = new JsonSerializerOptions
-                        {
-                            PropertyNameCaseInsensitive = true
+                BaseAddress = new Uri(baseUrl)
+            };
+            var response = await client.GetAsync(userInput);
+            var content = await response.Content.ReadAsStringAsync();
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
 
+            };
 
-                        };
-                        responseModel = JsonSerializer.Deserialize<List<CarApiResponse>>(content, options);
-                        var model = await response.Content.ReadAsAsync<CarApiResponse>();
-
-
-                    }
-                    return true;
-                    //return model;
-                }
-                else
-                {
-                    throw new JsonException();
-                    //throw new ArgumentException();
-                }
-
-
+            //using (HttpResponseMessage client = await ApiHelper.ApiClient.GetAsync(baseUrl))
+            //using (var client = new HttpClient())
+            //{
+            //    client.BaseAddress = new Uri(baseUrl);
+            //    client.DefaultRequestHeaders.Accept.Clear();
+            //    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            //    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Make_Name", "Model_Name");
+            List<CarApiResponse> responseModel;
+            try
+            {
+                responseModel = JsonSerializer.Deserialize<List<CarApiResponse>>(content, options);
             }
+            catch(JsonException)
+            {
+                throw new JsonException(content);
+            };
+            //return responseModel.Count > 0;
+            return true;
+
+            
         }
         //public static async Task<bool> WasModelMadeInYearAsync(int year)
         //{

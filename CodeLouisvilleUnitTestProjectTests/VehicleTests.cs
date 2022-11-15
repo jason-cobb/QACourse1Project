@@ -32,15 +32,20 @@ namespace CodeLouisvilleUnitTestProjectTests
         [Fact] 
         public void VehicleConstructorTest()
         {
-            //arrange
-            Vehicle vehicle = new Vehicle(4, 10,"Toyota", "Camry", 30);
+            using (new AssertionScope())
+            {
+                //arrange
+                Vehicle vehicle = new Vehicle(4, 10, "Toyota", "Camry", 30);
 
 
-            //act
-            ////assert
-           // Assert.True(true, "That is not our vehicle.");
-            vehicle.Should().BeOfType<Vehicle>(because: "vehicle instanciates the parameters of Vehicle type.");
-
+                //act
+                ////assert
+                // Assert.True(true, "That is not our vehicle.");
+                vehicle.Should().BeOfType<Vehicle>(because: "vehicle instanciates the parameters of Vehicle type.");
+                vehicle.NumberOfTires.Should().Be(4);
+                vehicle.MilesPerGallon.Should().Be(30);
+                vehicle.Make.Should().Be("Toyota");
+            }
         }
 
         //Verify that the parameterless AddGas method fills the gas tank
@@ -177,23 +182,27 @@ namespace CodeLouisvilleUnitTestProjectTests
         }
         [Fact]
         public void DriveNegativeTestsUntilRunOutOfGas()//(string Drive[], double miles)
-        {   //arrange
-            Vehicle vehicle = new Vehicle(4, 10, "Toyota", "Camry", 30);
-            double milesDriven = 300;
-            double gasUsed = 10; 
-            double startingMileage = vehicle.Mileage;
-            double endingMileage = vehicle.Mileage + milesDriven;
+        {
+            using (new AssertionScope())
+            {
+                //arrange
+                Vehicle vehicle = new Vehicle(4, 10, "Toyota", "Camry", 30);
+                double milesDriven = 300;
+                double gasUsed = 10;
+                double startingMileage = vehicle.Mileage;
+                double endingMileage = vehicle.Mileage + milesDriven;
 
-            ////act
+                ////act
 
-            vehicle.Drive(3050);
-            
-            
-            //assert
-            milesDriven.Should().BeApproximately(gasUsed * vehicle.MilesPerGallon, 0.01);
-            vehicle.GasLevel.Should().Be($"{vehicle.GasRemaining / vehicle.GasTankCapacity}%");
-            vehicle.MilesRemaining.Should().BeApproximately(vehicle.GasRemaining * vehicle.MilesPerGallon, 0.01);
-            endingMileage.Should().Be(startingMileage + milesDriven);
+                vehicle.Drive(3050);
+
+
+                //assert
+                milesDriven.Should().BeApproximately(gasUsed * vehicle.MilesPerGallon, 0.01);
+                vehicle.GasLevel.Should().Be($"{vehicle.GasRemaining / vehicle.GasTankCapacity}%");
+                vehicle.MilesRemaining.Should().BeApproximately(vehicle.GasRemaining * vehicle.MilesPerGallon, 0.01);
+                endingMileage.Should().Be(startingMileage + milesDriven);
+            }
 
         }
 

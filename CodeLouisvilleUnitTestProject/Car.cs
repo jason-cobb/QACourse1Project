@@ -16,34 +16,43 @@ namespace CodeLouisvilleUnitTestProject
         public int NumberOfPassengers { get; private set; }
         public string Make_Name => Make;
         public string Model_Name => Model;
+        //private HttpClient _httpClient;
 
 
+        static string baseUrl = "https://vpic.nhtsa.dot.gov/api/";
+        private static readonly HttpClient _httpClient = new HttpClient
+        {
+            BaseAddress = new Uri(baseUrl)
+        };
 
         public Car()
-            : this(0, 0)              //this(0, "", "", 0)
+            : this (0, "", "", 0)
         { }
-        public Car(double gasTankCapacity, double milesPerGallon)
+       
+        public Car(double gasTankCapacity,string carMake, string carModel, double milesPerGallon)
         {
             NumberOfTires = 4;
             GasTankCapacity = gasTankCapacity;
-           
+            carMake = Make_Name;
+            carModel = Model_Name;
             MilesPerGallon = milesPerGallon;
-           
+            //HttpClient client = _httpClient;
+            
         }
 
 
         public static async Task<bool> IsValidModelForMakeAsync()
-        {   Car CarApiResponse = new Car();
+        {   Car car = new Car();
              //string url = "https://vpic.nhtsa.dot.gov/api/vehicles/getmodelsformake/honda?format=json";
             string baseUrl = "https://vpic.nhtsa.dot.gov/api/vehicles/getmodelsformake/honda?format=json";
             //var userInput = (Make: honda);
-            var userInput = ("");
+            var userInput = ("Make: honda");
 
-            HttpClient client = new HttpClient
-            {
-                BaseAddress = new Uri(baseUrl)
-            };
-            var response = await client.GetAsync(userInput);
+            //HttpClient client = new HttpClient
+            //{
+            //    BaseAddress = new Uri(baseUrl)
+            //};
+            var response = await _httpClient.GetAsync(userInput);
             var content = await response.Content.ReadAsStringAsync();
             var options = new JsonSerializerOptions
             {
@@ -68,7 +77,13 @@ namespace CodeLouisvilleUnitTestProject
                 throw new JsonException(content);
             };
             //return responseModel.Count > 0;
-            return true;
+
+            if (car.Model_Name != null)
+                return true;
+            else
+
+                return false;
+            
 
             
         }

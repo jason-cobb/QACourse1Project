@@ -21,9 +21,8 @@ namespace CodeLouisvilleUnitTestProjectTests
 
             //assert
             car.NumberOfTires.Should().Be(4);
-
         }
-
+       
         [Fact]
         public void CarIsAVehicle()
         {
@@ -40,25 +39,19 @@ namespace CodeLouisvilleUnitTestProjectTests
         public async Task IsValidModelForMakeAsyncTest()
         {
             //arrange
-            Car CarApiResponse = new Car();
-            string HONDA = CarApiResponse.Make_Name;
-            string Civic = CarApiResponse.Model_Name;
+            Car car = new Car();
+            
+            string HONDA = car.Make_Name;
+            string Civic = car.Model_Name;
             //string Toyota = car.Model;
 
-            //car.Make = Honda;
-            //car.Model_Name = Civic;
-
-            //vehicle.HasFlatTire = true;
-
-
+            
             Func<Task> act = async () => { await Car.IsValidModelForMakeAsync(); };
 
             //not sure where to put await - many fails
             //assert
             await act.Should().NotThrowAsync();
-
-
-
+            
 
         }
         [Fact]

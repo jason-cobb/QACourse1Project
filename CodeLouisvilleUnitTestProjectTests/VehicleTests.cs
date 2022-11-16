@@ -158,28 +158,34 @@ namespace CodeLouisvilleUnitTestProjectTests
 
             ////act
             vehicle.GasRemaining = 0;
-            vehicle.Drive(5);
+            
+            var outOfGas = vehicle.Drive(5);
 
             // Action act = () => vehicle.Drive(0);
-            //vehicle._gasRemaining = 0;
+           
             ////assert
-            vehicle.MilesRemaining.Should().Be(0, because: "Cannot drive, out of gas.");
-            vehicle.MilesRemaining.Should().ToString().Contains("out of gas");
-          
+            //vehicle.MilesRemaining.Should().Be(0, because: "Cannot drive, out of gas.");
+            //outOfGas.Should().Contain("pants");
+            outOfGas.Should().ContainEquivalentOf("cannot drive, out of gas");
+
         }
         [Fact]
         public void DriveNegativeTestsHasFlat()//(string Drive[], double miles)
         {   ///arrange
-            Vehicle vehicle = new Vehicle();
+            Vehicle vehicle = new Vehicle(4, 10, "Toyota", "Camry", 30);
+            vehicle.AddGas(5);
+            //vehicle.Milesremain
 
             vehicle.HasFlatTire = true;
-            ////act
+            
 
-            vehicle.Drive(200);
+            ////act
+            var tireFlat = vehicle.Drive(5);
+            //vehicle.Drive(200);
 
             ///assert
-            vehicle.HasFlatTire.Should().Be(true, because: " Oh no! Got a flat tire!");
-            vehicle.HasFlatTire.Should().ToString().Contains("flat");
+            //vehicle.HasFlatTire.Should().Be(true, because: " Oh no! Got a flat tire!");
+            tireFlat.Should().ContainAll("Cannot ", "drive", "flat");
 
 
         }

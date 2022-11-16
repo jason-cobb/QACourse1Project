@@ -97,7 +97,8 @@ namespace CodeLouisvilleUnitTestProjectTests
             Action act = () => vehicle.AddGas(12);
             ////assert
 
-            act.Should().Throw<GasOverfillException>().WithMessage("Unable*"); //.WithMessage("Unable to add 12 gallons to tank " +
+            act.Should().Throw<GasOverfillException>().WithMessage("Unable to add 12 gallons*"); 
+            //.WithMessage("Unable to add 12 gallons to tank " +
                  // "because it would exceed the capacity of 10 gallons");  amountAdded and capacity are not values on this file
                // or .Where(e => e.Message.StartsWith("Unable"));
            
@@ -156,12 +157,14 @@ namespace CodeLouisvilleUnitTestProjectTests
             Vehicle vehicle = new Vehicle();
 
             ////act
+            vehicle.GasRemaining = 0;
             vehicle.Drive(5);
-                
-                     // Action act = () => vehicle.Drive(0);
-                     //vehicle._gasRemaining = 0;
+
+            // Action act = () => vehicle.Drive(0);
+            //vehicle._gasRemaining = 0;
             ////assert
             vehicle.MilesRemaining.Should().Be(0, because: "Cannot drive, out of gas.");
+            vehicle.MilesRemaining.Should().ToString().Contains("out of gas");
           
         }
         [Fact]
@@ -173,9 +176,11 @@ namespace CodeLouisvilleUnitTestProjectTests
             ////act
 
             vehicle.Drive(200);
-            
+
             ///assert
             vehicle.HasFlatTire.Should().Be(true, because: " Oh no! Got a flat tire!");
+            vehicle.HasFlatTire.Should().ToString().Contains("flat");
+
 
         }
         [Fact]
@@ -199,6 +204,7 @@ namespace CodeLouisvilleUnitTestProjectTests
 
 
                 //assert
+
                 vehicle.GasTankCapacity.Should().Be(gasUsed);
                 gasUsed.Should().Be(10);
                 milesDriven.Should().BeApproximately(gasUsed * vehicle.MilesPerGallon, 0.01);

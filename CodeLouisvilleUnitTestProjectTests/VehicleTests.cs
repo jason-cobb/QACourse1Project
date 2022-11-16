@@ -62,6 +62,8 @@ namespace CodeLouisvilleUnitTestProjectTests
 
             //assert
             vehicle.GasLevel.Should().Be("100%");
+            vehicle.GasRemaining.Should().Be(vehicle.GasTankCapacity);
+            vehicle.GasRemaining.Should().Be(10);
         }
 
         //Verify that the AddGas method with a parameter adds the
@@ -90,14 +92,15 @@ namespace CodeLouisvilleUnitTestProjectTests
         {
             //arrange
             Vehicle vehicle = new Vehicle(4, 10, "Toyota", "Camry", 30);
-
            
             ////act                 
-            Action act = () => vehicle.AddGas(11);
+            Action act = () => vehicle.AddGas(12);
             ////assert
-            //throw new Exception();
-            act.Should().Throw<GasOverfillException>();
 
+            act.Should().Throw<GasOverfillException>().WithMessage("Unable*"); //.WithMessage("Unable to add 12 gallons to tank " +
+                 // "because it would exceed the capacity of 10 gallons");  amountAdded and capacity are not values on this file
+               // or .Where(e => e.Message.StartsWith("Unable"));
+           
         }
         //Using a Theory (or data-driven test), verify that the GasLevel
         //property returns the correct percentage when the gas level is
@@ -182,21 +185,30 @@ namespace CodeLouisvilleUnitTestProjectTests
             {
                 //arrange
                 Vehicle vehicle = new Vehicle(4, 10, "Toyota", "Camry", 30);
+                
+
                 double milesDriven = 300;
-                double gasUsed = 10;
+                double gasUsed = vehicle.GasTankCapacity;
                 double startingMileage = vehicle.Mileage;
-                double endingMileage = vehicle.Mileage + milesDriven;
+                double totalMileage = vehicle.Mileage + milesDriven;
+
 
                 ////act
-
+                vehicle.AddGas();
                 vehicle.Drive(3050);
 
 
                 //assert
+                vehicle.GasTankCapacity.Should().Be(gasUsed);
+                gasUsed.Should().Be(10);
                 milesDriven.Should().BeApproximately(gasUsed * vehicle.MilesPerGallon, 0.01);
                 vehicle.GasLevel.Should().Be($"{vehicle.GasRemaining / vehicle.GasTankCapacity}%");
+                vehicle.GasLevel.Should().Be("0%", because: $"Drove {Math.Round(milesDriven, 2)} miles, then ran out of gas.");
+
                 vehicle.MilesRemaining.Should().BeApproximately(vehicle.GasRemaining * vehicle.MilesPerGallon, 0.01);
-                endingMileage.Should().Be(startingMileage + milesDriven);
+                totalMileage.Should().Be(startingMileage + milesDriven);
+                
+               
             }
 
         }
@@ -206,8 +218,7 @@ namespace CodeLouisvilleUnitTestProjectTests
         [InlineData(0, 0)]
         [InlineData(0.333, 10)]
         [InlineData(3.333, 100)]
-        //[InlineData(10, 3000)]
-
+       
         public void DrivePositiveTests(double gasUsed, double milesDriven)        //(params object[] yourParamsHere)
         {
             using (new AssertionScope())
@@ -229,7 +240,6 @@ namespace CodeLouisvilleUnitTestProjectTests
                 vehicle.MilesRemaining.Should().BeApproximately(vehicle.GasRemaining * vehicle.MilesPerGallon, 0.01);
                 endingMileage.Should().Be(startingMileage + milesDriven);
 
-                //*******need to add gas tank empty status report
             }
 
         }
@@ -239,22 +249,16 @@ namespace CodeLouisvilleUnitTestProjectTests
         [Fact]
         public async Task ChangeTireWithoutFlatTest()
         {
-            
             //arrange
             Vehicle vehicle = new Vehicle(4, 10, "", "", 30);
 
             //////assert
 
-
             //await vehicle.ChangeTireAsync();
             Func<Task> runCheck = async () => { await vehicle.ChangeTireAsync(); };
            
-
              await runCheck.Should().ThrowAsync<NoTireToChangeException>();
 
-
-
-           
         }
 
         //Verify that ChangeTireAsync can successfully
@@ -265,15 +269,17 @@ namespace CodeLouisvilleUnitTestProjectTests
             //arrange
             Vehicle vehicle = new Vehicle();
             vehicle.HasFlatTire = true;
-            //vehicle._hasFlatTire.Should().BeTrue();
+            vehicle.HasFlatTire.Should().BeTrue();
 
-            Func<Task> act = () => vehicle.ChangeTireAsync();
-            
-           //not sure where to put await - many fails
-            //assert
-            await act.Should().NotThrowAsync<NoTireToChangeException>();
-                     
+           Func<Task> act = () => vehicle.ChangeTireAsync();
 
+            ////not sure where to put await - many fails
+            // //assert
+            await Task.Delay(500);
+            act.Should().NotThrowAsync<NoTireToChangeException>(because:"Not enough time (1000) to change the flat.");
+            await Task.Delay(1100);
+            act.Should().ThrowAsync<NoTireToChangeException>(because: "Sufficient time was allowed to change the flat tire.");
+               
            }
 
         //BONUS: Write a unit test that verifies that a flat

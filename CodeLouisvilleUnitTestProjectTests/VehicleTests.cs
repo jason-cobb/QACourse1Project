@@ -92,16 +92,18 @@ namespace CodeLouisvilleUnitTestProjectTests
         {
             //arrange
             Vehicle vehicle = new Vehicle(4, 10, "Toyota", "Camry", 30);
-           
+            
             ////act                 
             Action act = () => vehicle.AddGas(12);
             ////assert
 
-            act.Should().Throw<GasOverfillException>().WithMessage("Unable to add 12 gallons*"); 
-            //.WithMessage("Unable to add 12 gallons to tank " +
+            act.Should().Throw<GasOverfillException>().WithMessage($"Unable to add*"); 
+           // {amountAdded} gallons to tank " +
+                 // $"because it would exceed the capacity of {capacity} gallons");
+                 //.WithMessage("Unable to add 12 gallons to tank " +
                  // "because it would exceed the capacity of 10 gallons");  amountAdded and capacity are not values on this file
-               // or .Where(e => e.Message.StartsWith("Unable"));
-           
+                 // or .Where(e => e.Message.StartsWith("Unable"));
+
         }
         //Using a Theory (or data-driven test), verify that the GasLevel
         //property returns the correct percentage when the gas level is

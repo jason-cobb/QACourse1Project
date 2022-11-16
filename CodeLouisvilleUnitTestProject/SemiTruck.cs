@@ -36,15 +36,17 @@
         /// <param name="name">The name of the CargoItem to attempt to remove</param>
         /// <returns>The removed CargoItem</returns>
         /// <exception cref="ArgumentException">Thrown if no CargoItem in the Cargo matches the passed name</exception>
-        public CargoItem UnloadCargo(string name)
+        public CargoItem UnloadCargo(CargoItem name)
         {
             //YOUR CODE HERE
             if
                 (name != null)
             {
-                Cargo[0].Name = name;
-                Cargo.RemoveAt(0);
-                return Cargo[0];
+                //Cargo[0].Name = name;
+                Cargo.Remove(UnloadCargo(name));
+                //Cargo.RemoveAt(0);
+                return name;
+                
             }
             else
             {

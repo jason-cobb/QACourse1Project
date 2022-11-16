@@ -14,16 +14,22 @@ namespace CodeLouisvilleUnitTestProjectTests
         [Fact]
         public void NewSemiTruckIsAVehicleAndHas18TiresAndEmptyCargoTest()
         {
-            //arrange
-            SemiTruck semiTruck = new SemiTruck();
+            using(new AssertionScope())
+            { 
+                //arrange
+                SemiTruck semiTruck = new SemiTruck();
 
-            //act
+                //act
 
-            //List<CargoItem> cargoItems = new List<CargoItem>();
+                //List<CargoItem> cargoItems = new List<CargoItem>();
 
-            //assert
-            semiTruck.Cargo.Should().BeEmpty();
-            semiTruck.Cargo.Should().NotBeNull();
+                //assert
+                semiTruck.Should().BeAssignableTo<Vehicle>(because: "semiTruck instanciates the parameterless SemiTruck which inherits from a parent of Vehicle class.");
+                semiTruck.NumberOfTires.Should().Be(18);
+                semiTruck.Cargo.Should().BeAssignableTo<List<CargoItem>>();
+                semiTruck.Cargo.Should().BeEmpty();
+                semiTruck.Cargo.Should().NotBeNull();
+            }
         }
 
         //Verify that adding a CargoItem using LoadCargo does successfully add
@@ -42,7 +48,8 @@ namespace CodeLouisvilleUnitTestProjectTests
            
             //assert
             semiTruck.Cargo.Should().Contain(box);
-            semiTruck.Cargo.Should().HaveCountGreaterThan(0);
+            semiTruck.Cargo.Should().HaveCount(1); 
+
         }
 
         //Verify that unloading a  cargo item that is in the Cargo does
@@ -55,11 +62,13 @@ namespace CodeLouisvilleUnitTestProjectTests
             //var box = semiTruck.Cargo;
             CargoItem box = new CargoItem();
             //act
-          
+            
+            semiTruck.Cargo.Add(box);
 
-            semiTruck.LoadCargo(box);
+            //semiTruck.LoadCargo(box);
             semiTruck.Cargo.Should().Contain(box);
-            semiTruck.Cargo.Remove(box);
+            //string box;
+            semiTruck.UnloadCargo(box);
 
             //assert
             semiTruck.Cargo.Should().NotContain(box);

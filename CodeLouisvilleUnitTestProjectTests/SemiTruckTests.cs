@@ -82,11 +82,13 @@ namespace CodeLouisvilleUnitTestProjectTests
         {
             //arrange
             SemiTruck semiTruck = new SemiTruck();
-            
-            
+            CargoItem box = new CargoItem();
+            CargoItem item = new CargoItem();
+            semiTruck.Cargo.Add(box);
 
 
-            Action act = () => semiTruck.UnloadCargo("name");
+
+            Action act = () => semiTruck.UnloadCargo(item);
             ////assert
             
             act.Should().Throw<ArgumentException>();

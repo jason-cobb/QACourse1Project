@@ -19,11 +19,9 @@ namespace CodeLouisvilleUnitTestProject
         //private HttpClient _httpClient;
 
 
-        static string baseUrl = "https://vpic.nhtsa.dot.gov/api/";
-        private static readonly HttpClient _httpClient = new HttpClient
-        {
-            BaseAddress = new Uri(baseUrl)
-        };
+        
+        private HttpClient _client;
+       
 
         public Car()
             : this (0, "", "", 0)
@@ -36,66 +34,57 @@ namespace CodeLouisvilleUnitTestProject
             carMake = Make_Name;
             carModel = Model_Name;
             MilesPerGallon = milesPerGallon;
-            //HttpClient client = _httpClient;
+            _client = new HttpClient()
+            {
+                BaseAddress = new Uri("https://vpic.nhtsa.dot.gov/api/")
+            };
+
+        }
+
+        public async Task<bool> WasModelMadeInYearAsync(int year)
+        {
+            var make = this.Make;
+            var model = this.Model;
+            if (year < 1995) throw new ArgumentException("No data is available for years before 1995");
+            string urlSuffix = $"vehicles/getmodelsformakeyear/make/{Make}/modelyear/{year}?format=json";
+            var response = await _client.GetAsync(urlSuffix);
+            await response.Content.ReadAsStringAsync();
+            var rawJson = await response.Content.ReadAsStringAsync();
+            var data = JsonSerializer.Deserialize<GetModelsForMakeYearResponseModel>(rawJson);
+            return data.Results.Any(r => r.Model_Name == Model);
             
         }
 
+        public async Task<bool> IsValidModelForMakeAsync(string name)
+        {
 
-        public static async Task<bool> IsValidModelForMakeAsync()
-        {   Car car = new Car();
-             //string url = "https://vpic.nhtsa.dot.gov/api/vehicles/getmodelsformake/honda?format=json";
-            string baseUrl = "https://vpic.nhtsa.dot.gov/api/vehicles/getmodelsformake/honda?format=json";
+            //string url = "https://vpic.nhtsa.dot.gov/api/vehicles/getmodelsformake/honda?format=json";
+           // Car car = new();
             //var userInput = (Make: honda);
-            var userInput = ("Make: honda");
-
-            //HttpClient client = new HttpClient
-            //{
-            //    BaseAddress = new Uri(baseUrl)
-            //};
-            var response = await _httpClient.GetAsync(userInput);
+            var make = this.Make;
+            var model = this.Model;
+            if (make != name) throw new ArgumentNullException("There was no model with the name provided");
+            string Url = $"vehicles/getmodelsformake/{Make}?format=json";
+            
+            var response = await _client.GetAsync(Url);
             var content = await response.Content.ReadAsStringAsync();
-            var options = new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
+            var responseModel = JsonSerializer.Deserialize<GetModelsForMakeYearResponseModel>(content);
+            return responseModel.Results.Any(r => r.Model_Name.Equals(name));
 
-            };
-
-            //using (HttpResponseMessage client = await ApiHelper.ApiClient.GetAsync(baseUrl))
-            //using (var client = new HttpClient())
-            //{
-            //    client.BaseAddress = new Uri(baseUrl);
-            //    client.DefaultRequestHeaders.Accept.Clear();
-            //    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            //    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Make_Name", "Model_Name");
-            List<CarApiResponse> responseModel;
-            try
-            {
-                responseModel = JsonSerializer.Deserialize<List<CarApiResponse>>(content, options);
-            }
-            catch(JsonException)
-            {
-                throw new JsonException(content);
-            };
-            //return responseModel.Count > 0;
-
-            if (car.Model_Name != null)
-                return true;
-            else
-
-                return false;
-            
-
-            
+            //    List<CarApiResponse> responseModel;
+            //    try
+            //    {
+            //        responseModel = JsonSerializer.Deserialize<List<CarApiResponse>>(content, options);
+            //    }
+            //    catch(JsonException)
+            //    {
+            //        throw new JsonException(content);
+            //    };
+            //    //return responseModel.Count > 0;
+            //    if (car.Model_Name != null)
+            //        return true;
+            //    else{  return false;}
         }
-        //public static async Task<bool> WasModelMadeInYearAsync(int year)
-        //{
-        //    //Car car = new();
-        //    // string url = "https://vpic.nhtsa.dot.gov/api/";
-        //    string baseUrl = "https://vpic.nhtsa.dot.gov/api/vehicles/getmodelsformakeyear/make/honda/modelyear/2015?format=json";
-
-
-           // throw new (ArgumentException)no user data is available before 1995;
-        //}
         public void AddPassengers(int passengers)
         {
             NumberOfPassengers += passengers;

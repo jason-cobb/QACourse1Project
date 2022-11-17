@@ -104,7 +104,7 @@ namespace CodeLouisvilleUnitTestProjectTests
         [InlineData(21, 25)]
 
         public void RemovePassengersTests(double milesPerGallon, int removedPassengers)
-            {
+        {
                 using (new AssertionScope())
                 {
                     //arrange
@@ -123,7 +123,7 @@ namespace CodeLouisvilleUnitTestProjectTests
 
 
 
-            }
+        }
       
     }
 }

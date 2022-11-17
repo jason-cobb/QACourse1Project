@@ -40,15 +40,11 @@ namespace CodeLouisvilleUnitTestProjectTests
         {
             //arrange
             Car car = new Car();
-            
-            string HONDA = car.Make_Name;
-            string Civic = car.Model_Name;
-            //string Toyota = car.Model;
+            //string HONDA = car.Make_Name;
+            //string civic = car.Model_Name;
 
-            
-            Func<Task> act = async () => { await Car.IsValidModelForMakeAsync(); };
+            Func<Task> act = async () => { await car.IsValidModelForMakeAsync("Civic"); };
 
-            //not sure where to put await - many fails
             //assert
             await act.Should().NotThrowAsync();
             
@@ -59,16 +55,13 @@ namespace CodeLouisvilleUnitTestProjectTests
         {
             //arrange
             Car car = new Car();
-            string HONDA = car.Make;
-            string Toyota = car.Model;
-
+           
             //act
-            Func<Task> act = async () => { await Car.IsValidModelForMakeAsync(); };
-
+            Func<Task> act = async () => { await car.WasModelMadeInYearAsync(1994); };
 
             //assert
-            await act.Should().ThrowAsync<JsonException>();
-            //await act.Should().ThrowAsync<ArgumentException>();
+            await act.Should().ThrowAsync<ArgumentException>();
+           
 
 
 

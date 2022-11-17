@@ -41,25 +41,9 @@ namespace CodeLouisvilleUnitTestProject
 
         }
 
-        public async Task<bool> WasModelMadeInYearAsync(int year)
-        {
-            var make = this.Make;
-            var model = this.Model;
-            if (year < 1995) throw new ArgumentException("No data is available for years before 1995");
-            string urlSuffix = $"vehicles/getmodelsformakeyear/make/{Make}/modelyear/{year}?format=json";
-            var response = await _client.GetAsync(urlSuffix);
-            await response.Content.ReadAsStringAsync();
-            var rawJson = await response.Content.ReadAsStringAsync();
-            var data = JsonSerializer.Deserialize<GetModelsForMakeYearResponseModel>(rawJson);
-            return data.Results.Any(r => r.Model_Name == Model);
-            
-        }
-
         public async Task<bool> IsValidModelForMakeAsync(string name)
         {
-
             //string url = "https://vpic.nhtsa.dot.gov/api/vehicles/getmodelsformake/honda?format=json";
-           // Car car = new();
             //var userInput = (Make: honda);
             var make = this.Make;
             var model = this.Model;
@@ -69,7 +53,7 @@ namespace CodeLouisvilleUnitTestProject
             var response = await _client.GetAsync(Url);
             var content = await response.Content.ReadAsStringAsync();
             var responseModel = JsonSerializer.Deserialize<GetModelsForMakeYearResponseModel>(content);
-            return responseModel.Results.Any(r => r.Model_Name.Equals(name));
+            return responseModel.Results.Any(r => r.Model_Name == Model);   //.Equals(name));
 
             //    List<CarApiResponse> responseModel;
             //    try
@@ -85,6 +69,22 @@ namespace CodeLouisvilleUnitTestProject
             //        return true;
             //    else{  return false;}
         }
+
+        public async Task<bool> WasModelMadeInYearAsync(int year)
+        {
+            var make = this.Make;
+            var model = this.Model;
+            if (year < 1995) throw new ArgumentException("No data is available for years before 1995");
+            string urlSuffix = $"vehicles/getmodelsformakeyear/make/{Make}/modelyear/{year}?format=json";
+            var response = await _client.GetAsync(urlSuffix);
+            await response.Content.ReadAsStringAsync();
+            var rawJson = await response.Content.ReadAsStringAsync();
+            var data = JsonSerializer.Deserialize<GetModelsForMakeYearResponseModel>(rawJson);
+            return data.Results.Any(r => r.Model_Name == Model);
+
+        }
+
+
         public void AddPassengers(int passengers)
         {
             NumberOfPassengers += passengers;

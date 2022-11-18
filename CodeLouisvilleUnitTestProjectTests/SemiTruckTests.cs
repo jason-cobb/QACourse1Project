@@ -54,44 +54,53 @@ namespace CodeLouisvilleUnitTestProjectTests
 
         //Verify that unloading a  cargo item that is in the Cargo does
         //remove it from the Cargo and return the matching CargoItem
-      //  [Fact]
-        //public void UnloadCargoWithValidCargoTest()
-        //{
-        //    //arrange
-        //    SemiTruck semiTruck = new SemiTruck();
-        //    //var box = semiTruck.Cargo;
-        //    CargoItem box = new CargoItem();
-        //    //act
-            
-        //    semiTruck.Cargo.Add(box);
+        [Fact]
+        public void UnloadCargoWithValidCargoTest()
+        {
+            //arrange
+            SemiTruck semiTruck = new SemiTruck();
+            //var box = semiTruck.Cargo;
+            CargoItem box = new CargoItem
+            {
+                Name = "Crate",
+                Description = "Box of braces",
+                Quantity = 1
+            };
+            //act
+            semiTruck.LoadCargo(box);
+            //semiTruck.Cargo.Should().Contain(box);
+            //string box;
+            semiTruck.UnloadCargo("Crate");
 
-        //    //semiTruck.LoadCargo(box);
-        //    semiTruck.Cargo.Should().Contain(box);
-        //    //string box;
-        //    semiTruck.UnloadCargo(box);
+            //assert
+            semiTruck.Cargo.Should().NotContain(box);
 
-        //    //assert
-        //    semiTruck.Cargo.Should().NotContain(box);
-            
-        //}
+        }
 
         //Verify that attempting to unload a CargoItem that does not
         //appear in the Cargo throws a System.ArgumentException
         [Fact]
         public void UnloadCargoWithInvalidCargoTest()
         {
-            //arrange
             SemiTruck semiTruck = new SemiTruck();
-            var box = new CargoItem();
+            //var box = semiTruck.Cargo;
+            CargoItem box = new CargoItem
+            {
+                Name = "Crate",
+                Description = "Box of braces",
+                Quantity = 1
+            };
             
-            semiTruck.Cargo.Add(box);
-            string item = null;
-
-
-            Action act = () => semiTruck.UnloadCargo(item);
+            //act
+            semiTruck.LoadCargo(box);
+            semiTruck.Cargo.Should().Contain(box);
+            //string box;
+           
+            Action act = () => semiTruck.UnloadCargo("water");
             ////assert
+
+            act.Should().Throw<ArgumentException>(because: "water is not a crate : box of braces");
             
-            act.Should().Throw<ArgumentException>();
 
         }
 
@@ -102,13 +111,17 @@ namespace CodeLouisvilleUnitTestProjectTests
         {
             //arrange
             SemiTruck semiTruck = new SemiTruck();
-            CargoItem box = new CargoItem();
+            CargoItem item = new CargoItem();
+            semiTruck.Cargo.Add(item);
+            item.Quantity = 3;
+            item.Description = "box of pants";
+            item.Name = "Pants";
 
-            semiTruck.Cargo.Add(box);
+            semiTruck.Cargo.Add(item);
             Action act = () => semiTruck.GetCargoItemsByName("box");
             ////assert
 
-            act.Should().ToString();
+            act.Should().NotBeNull();
         }
 
         //Verify that searching the Carto list for an item that does not
@@ -118,10 +131,13 @@ namespace CodeLouisvilleUnitTestProjectTests
         {
             //arrange
             SemiTruck semiTruck = new SemiTruck();
-            CargoItem cargoItem = new CargoItem();
-
+            CargoItem item = new CargoItem();
+            semiTruck.Cargo.Add(item);
+            item.Quantity = 3;
+            item.Description = "box of pants";
+            item.Name = "Pants";
             ////assert
-            Action act = () => semiTruck.GetCargoItemsByName("box");
+            Action act = () => semiTruck.GetCargoItemsByName("water");
          
 
             act.Should().NotBeNull(because: "If no exact name matches from the cargo item search, it should return an empty list.");

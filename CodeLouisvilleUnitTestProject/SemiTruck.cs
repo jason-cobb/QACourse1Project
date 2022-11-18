@@ -47,7 +47,7 @@
                 (name != null)
             {
                 
-                var item = Cargo.FirstOrDefault(r => r.Name == name);              // cargo[0].name = name;
+                var item = Cargo.FirstOrDefault(r => r.Name == name);             
                 Cargo.Remove(item);
 
                 return item;
@@ -99,7 +99,7 @@
                 
             }
 
-            Cargo.FindAll(item => item.Description == description).ToList();
+            Cargo.FindAll(item => item.Description == description);
             return cargoItems;
         }
 

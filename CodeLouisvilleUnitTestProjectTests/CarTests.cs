@@ -76,25 +76,25 @@ namespace CodeLouisvilleUnitTestProjectTests
             await act.Should().ThrowAsync<ArgumentException>().WithMessage("No data*");
            
         }
-        //[Theory]////   Positive test
-        ////[InlineData(2000, Honda, Camry)]
-        ////[InlineData()]
-        ////[InlineData()]
-        ////[InlineData()]
-        //public async Task WasModelMadeInYearAsyncPositive(int year, string Make, string Model)
-        //{
-        //    //arrange
-        //    Car car = new Car();
-        //    var Honda = Make;
-        //    var Camry = Model;
+        [Theory]////   Positive test
+        [InlineData(2000)]
+        //[InlineData()]
+        //[InlineData()]
+        //[InlineData()]
+        public async Task WasModelMadeInYearAsyncPositive(int year)
+        {
+            //arrange
+            Car car = new Car();
+            var Subaru = car.Make;
+            var WRX = car.Model;
 
-        //    //act
-        //    Func<Task> act = async () => { await car.WasModelMadeInYearAsync(1996); };
+            //act
+            Func<Task> act = async () => { await car.WasModelMadeInYearAsync(1996); };
 
-        //    //assert
-        //    await act.Should().();
+            //assert
+            await act.Should().ThrowAsync<ArgumentException>();
 
-        //}
+        }
 
         [Theory]
         [InlineData(29.6, 2)]

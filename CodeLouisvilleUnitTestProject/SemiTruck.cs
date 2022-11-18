@@ -39,23 +39,20 @@
         /// 
 
      
-        public CargoItem UnloadCargo(string name)
+        public List<CargoItem> UnloadCargo(string name)
         {
+            var item = Cargo.FirstOrDefault(CargoItem => CargoItem.Name == name);
 
             //YOUR CODE HERE
-            if
-                (name != null)
-            {
-                
-                var item = Cargo.FirstOrDefault(r => r.Name == name);             
+            if  (item != null)
+            {      
                 Cargo.Remove(item);
-
-                return item;
             }
             else
             {
                 throw new ArgumentException();
             }
+            return Cargo;
         }
 
         /// <summary>

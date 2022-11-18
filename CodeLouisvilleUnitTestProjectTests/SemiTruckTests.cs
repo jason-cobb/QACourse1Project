@@ -88,19 +88,30 @@ namespace CodeLouisvilleUnitTestProjectTests
             {
                 Name = "Crate",
                 Description = "Box of braces",
+                Quantity = 3
+            };
+            CargoItem bucket = new CargoItem
+            {
+                Name = "Bucket",
+                Description = "Bucket of chicken",
                 Quantity = 1
             };
-            
+
             //act
             semiTruck.LoadCargo(box);
-            semiTruck.Cargo.Should().Contain(box);
-            //string box;
-           
+            semiTruck.LoadCargo(bucket);
+
+            
+
+            //////assert
+            
+            
+
             Action act = () => semiTruck.UnloadCargo("water");
-            ////assert
+
 
             act.Should().Throw<ArgumentException>(because: "water is not a crate : box of braces");
-            
+
 
         }
 

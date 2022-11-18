@@ -38,18 +38,20 @@ namespace CodeLouisvilleUnitTestProjectTests
         [Fact]
         public void LoadCargoTest()
         {
-            //arrange
-            
-            SemiTruck semiTruck = new SemiTruck();
-            //var box = semiTruck.Cargo;
-            CargoItem box = new CargoItem();
-            //act
-            semiTruck.LoadCargo(box);            
-           
-            //assert
-            semiTruck.Cargo.Should().Contain(box);
-            semiTruck.Cargo.Should().HaveCount(1); 
+            using (new AssertionScope())
+            {
+                //arrange
 
+                SemiTruck semiTruck = new SemiTruck();
+                //var box = semiTruck.Cargo;
+                CargoItem box = new CargoItem();
+                //act
+                semiTruck.LoadCargo(box);
+
+                //assert
+                semiTruck.Cargo.Should().Contain(box);
+                semiTruck.Cargo.Should().HaveCount(1);
+            }
         }
 
         //Verify that unloading a  cargo item that is in the Cargo does

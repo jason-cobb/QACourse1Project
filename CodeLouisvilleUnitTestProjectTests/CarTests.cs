@@ -109,11 +109,11 @@ namespace CodeLouisvilleUnitTestProjectTests
                 car.MilesPerGallon = 30;
                 car.AddPassengers(passengers);
 
-
-                //milesPerGallon.Should().Be(milesPerGallon - (passengers * 0.2));
                 milesPerGallon.Should().BeApproximately(car.MilesPerGallon - 0.2 * passengers, 0.01);
-                //vehicle.GasLevel.Should().Be($"{vehicle.GasRemaining / vehicle.GasTankCapacity}%");
-                //vehicle.MilesRemaining.Should().BeApproximately(vehicle.GasRemaining * vehicle.MilesPerGallon, 0.01);
+                //milesPerGallon.Should().Be(milesPerGallon - (passengers * 0.2));
+
+               // car.GasLevel.Should().Be($"{car.GasRemaining / car.GasTankCapacity}%");
+               // car.MilesRemaining.Should().BeApproximately(car.GasRemaining * car.MilesPerGallon, 0.01);
 
             }
         }

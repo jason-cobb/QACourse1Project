@@ -54,16 +54,19 @@ namespace CodeLouisvilleUnitTestProjectTests
         [Fact]
         public void AddGasParameterlessFillsGasToMax()
         {
-            //arrange
-            Vehicle vehicle = new Vehicle(4, 10, "","", 30);
+            using (new AssertionScope())
+            {
+                //arrange
+                Vehicle vehicle = new Vehicle(4, 10, "", "", 30);
 
-            //act
-            vehicle.AddGas();
+                //act
+                vehicle.AddGas();
 
-            //assert
-            vehicle.GasLevel.Should().Be("100%");
-            vehicle.GasRemaining.Should().Be(vehicle.GasTankCapacity);
-            vehicle.GasRemaining.Should().Be(10);
+                //assert
+                vehicle.GasLevel.Should().Be("100%");
+                vehicle.GasRemaining.Should().Be(vehicle.GasTankCapacity);
+                vehicle.GasRemaining.Should().Be(10);
+            }
         }
 
         //Verify that the AddGas method with a parameter adds the

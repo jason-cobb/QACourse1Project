@@ -50,8 +50,7 @@ namespace CodeLouisvilleUnitTestProject
         //string url = 
         //if (name != null)
         //{
-        //    var make = this.Make;
-        //    var model = this.Model;
+        //  
         //    string Url = $"vehicles/getmodelsformake/{Make}?format=json";
         //    var response = await _client.GetAsync(Url);
         //    var content = await response.Content.ReadAsStringAsync();

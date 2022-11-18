@@ -98,6 +98,7 @@ namespace CodeLouisvilleUnitTestProjectTests
         [Theory]
         [InlineData(29.6, 2)]
         [InlineData(29, 5)]
+        [InlineData(30, 0)]
 
         public void AddPassengersTests(double milesPerGallon, int passengers)
         {

@@ -39,9 +39,8 @@ namespace CodeLouisvilleUnitTestProjectTests
         public async Task IsValidModelForMakeAsyncTest()
         {
             //arrange
-            Car car = new Car();
-            string Honda = car.Make;
-            string Civic = car.Model;
+            Car car = new Car(4, "Honda","Civic",30 );
+           
             //assert
             Func<Task> act = async () => { await car.IsValidModelForMakeAsync(); };
 
@@ -52,10 +51,8 @@ namespace CodeLouisvilleUnitTestProjectTests
         public async Task IsValidModelForMakeAsyncTestWrongModel()
         {
             //arrange///////////double gasTankCapacity,string carMake, string carModel, double milesPerGallon
-            Car car = new Car();
-            string Honda = car.Make;
-            string Camry = car.Model;
-
+            Car car = new Car(4, "Honda", "Camry", 30);
+            
             //assert
             Func<Task> act = async () => { await car.IsValidModelForMakeAsync(); };
 

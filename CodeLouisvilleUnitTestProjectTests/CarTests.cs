@@ -39,19 +39,21 @@ namespace CodeLouisvilleUnitTestProjectTests
         public async Task IsValidModelForMakeAsyncTest()
         {
             //arrange
-            Car car = new Car(4, "Honda","Civic",30 );
+            Car car = new Car(4, "Honda","Civic", 30);
            
             //assert
             Func<Task> act = async () => { await car.IsValidModelForMakeAsync(); };
 
-            await act.Should().NotThrowAsync<ArgumentNullException>();
-          
+             await act.Should().NotThrowAsync<ArgumentNullException>();
+            
+
+
         }
         [Fact]
         public async Task IsValidModelForMakeAsyncTestWrongModel()
         {
             //arrange///////////double gasTankCapacity,string carMake, string carModel, double milesPerGallon
-            Car car = new Car(4, "Honda", "Camry", 30);
+            Car car = new Car(4, "Honda", "Camry",30);
             
             //assert
             Func<Task> act = async () => { await car.IsValidModelForMakeAsync(); };
@@ -74,15 +76,14 @@ namespace CodeLouisvilleUnitTestProjectTests
         }
         [Theory]////   Positive test
         [InlineData(2000)]
-        //[InlineData()]
+        [InlineData(2020)]
         //[InlineData()]
         //[InlineData()]
         public async Task WasModelMadeInYearAsyncPositive(int year)
         {
             //arrange
-            Car car = new Car();
-            var Subaru = car.Make;
-            var WRX = car.Model;
+            Car car = new Car(4, "Subaru", "WRX", 30);
+           
 
             //act
             Func<Task> act = async () => { await car.WasModelMadeInYearAsync(1996); };

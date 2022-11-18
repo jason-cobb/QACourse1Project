@@ -16,10 +16,7 @@ namespace CodeLouisvilleUnitTestProject
         public int NumberOfPassengers { get; private set; }
         public string Make_Name => Make;
         public string Model_Name => Model;
-        //private HttpClient _httpClient;
-
-
-        
+       
         private HttpClient _client;
        
 
@@ -27,12 +24,13 @@ namespace CodeLouisvilleUnitTestProject
             : this (0, "", "", 0)
         { }
        
-        public Car(double gasTankCapacity,string carMake, string carModel, double milesPerGallon)
+        public Car(double gasTankCapacity, string make, string model, double milesPerGallon)
         {
             NumberOfTires = 4;
             GasTankCapacity = gasTankCapacity;
-            carMake = Make_Name;
-            carModel = Model_Name;
+            make = Make;
+            model = Model;
+           
             MilesPerGallon = milesPerGallon;
             _client = new HttpClient()
             {
@@ -41,43 +39,34 @@ namespace CodeLouisvilleUnitTestProject
 
         }
 
-        public async Task<bool> IsValidModelForMakeAsync(string name)
+        public async Task<bool> IsValidModelForMakeAsync()
         {
-            //string url = "https://vpic.nhtsa.dot.gov/api/vehicles/getmodelsformake/honda?format=json";
-            //var userInput = (Make: honda);
-            var make = this.Make;
-            var model = this.Model;
-            if (make != name) throw new ArgumentNullException("There was no model with the name provided");
-            string Url = $"vehicles/getmodelsformake/{Make}?format=json";
-            
-            var response = await _client.GetAsync(Url);
-            var content = await response.Content.ReadAsStringAsync();
-            var responseModel = JsonSerializer.Deserialize<GetModelsForMakeYearResponseModel>(content);
-            return responseModel.Results.Any(r => r.Model_Name == Model);   //.Equals(name));
+            string urlSuffix = $"vehicles/getformake/{Make}?format=json";
+            var response = await _client.GetAsync(urlSuffix);
+            var rawJson = await response.Content.ReadAsStringAsync();
+            var data = JsonSerializer.Deserialize<GetModelsForMakeYearResponseModel>(rawJson);
+            return data.Results.Any(r => r.Model_Name == Model);
 
-            //    List<CarApiResponse> responseModel;
-            //    try
-            //    {
-            //        responseModel = JsonSerializer.Deserialize<List<CarApiResponse>>(content, options);
-            //    }
-            //    catch(JsonException)
-            //    {
-            //        throw new JsonException(content);
-            //    };
-            //    //return responseModel.Count > 0;
-            //    if (car.Model_Name != null)
-            //        return true;
-            //    else{  return false;}
         }
+        //string url = 
+        //if (name != null)
+        //{
+        //    var make = this.Make;
+        //    var model = this.Model;
+        //    string Url = $"vehicles/getmodelsformake/{Make}?format=json";
+        //    var response = await _client.GetAsync(Url);
+        //    var content = await response.Content.ReadAsStringAsync();
+        //    var responseModel = JsonSerializer.Deserialize<GetModelsForMakeYearResponseModel>(content);
+        //    return responseModel.Results.Any(r => r.Model_Name == Model);   //.Equals(name));
+        //}
+        //else  { throw new ArgumentNullException("There was no model with the name provided"); }
 
         public async Task<bool> WasModelMadeInYearAsync(int year)
         {
-            var make = this.Make;
-            var model = this.Model;
+            
             if (year < 1995) throw new ArgumentException("No data is available for years before 1995");
             string urlSuffix = $"vehicles/getmodelsformakeyear/make/{Make}/modelyear/{year}?format=json";
             var response = await _client.GetAsync(urlSuffix);
-            await response.Content.ReadAsStringAsync();
             var rawJson = await response.Content.ReadAsStringAsync();
             var data = JsonSerializer.Deserialize<GetModelsForMakeYearResponseModel>(rawJson);
             return data.Results.Any(r => r.Model_Name == Model);

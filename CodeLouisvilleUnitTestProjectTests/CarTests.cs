@@ -40,18 +40,31 @@ namespace CodeLouisvilleUnitTestProjectTests
         {
             //arrange
             Car car = new Car();
-            //string HONDA = car.Make_Name;
-            //string civic = car.Model_Name;
+            string Honda = car.Make;
+            string Civic = car.Model;
 
-            Func<Task> act = async () => { await car.IsValidModelForMakeAsync("Civic"); };
+            Func<Task> act = async () => { await car.IsValidModelForMakeAsync(); };
 
             //assert
-            await act.Should().NotThrowAsync();
-            
-
+            await act.Should().NotThrowAsync<ArgumentNullException>();
+           // car.Model.Should().NotBeNull();
         }
         [Fact]
-        public async Task IsNotValidModelForTheMakeAsyncTest()
+        public async Task IsValidModelForMakeAsyncTestWrongModel()
+        {
+            //arrange///////////double gasTankCapacity,string carMake, string carModel, double milesPerGallon
+            Car car = new Car();
+            string Honda = car.Make;
+            string Camry = car.Model;
+
+            Func<Task> act = async () => { await car.IsValidModelForMakeAsync(); };
+
+            //assert
+            await act.Should().ThrowAsync<ArgumentNullException>();
+
+        }
+        [Fact]//Negative test
+        public async Task WasModelMadeInYearAsyncNegative()
         {
             //arrange
             Car car = new Car();
@@ -60,12 +73,28 @@ namespace CodeLouisvilleUnitTestProjectTests
             Func<Task> act = async () => { await car.WasModelMadeInYearAsync(1994); };
 
             //assert
-            await act.Should().ThrowAsync<ArgumentException>();
+            await act.Should().ThrowAsync<ArgumentException>().WithMessage("No data*");
            
-
-
-
         }
+        //[Theory]////   Positive test
+        ////[InlineData(2000, Honda, Camry)]
+        ////[InlineData()]
+        ////[InlineData()]
+        ////[InlineData()]
+        //public async Task WasModelMadeInYearAsyncPositive(int year, string Make, string Model)
+        //{
+        //    //arrange
+        //    Car car = new Car();
+        //    var Honda = Make;
+        //    var Camry = Model;
+
+        //    //act
+        //    Func<Task> act = async () => { await car.WasModelMadeInYearAsync(1996); };
+
+        //    //assert
+        //    await act.Should().();
+
+        //}
 
         [Theory]
         [InlineData(29.6, 2)]

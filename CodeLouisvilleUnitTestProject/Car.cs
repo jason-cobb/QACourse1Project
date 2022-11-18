@@ -11,12 +11,12 @@ using WireMock.Admin.Mappings;
 namespace CodeLouisvilleUnitTestProject
 {
 
-    public class Car : Vehicle
+    public class Car: Vehicle
     {
         public int NumberOfPassengers { get; private set; }
-        public string Make_Name => Make;
-        public string Model_Name => Model;
-       
+        public string Make { get; }
+        public string Model { get; }
+
         private HttpClient _client;
        
 
@@ -28,9 +28,8 @@ namespace CodeLouisvilleUnitTestProject
         {
             NumberOfTires = 4;
             GasTankCapacity = gasTankCapacity;
-            make = Make;
-            model = Model;
-           
+            Make = make;
+            Model = model;
             MilesPerGallon = milesPerGallon;
             _client = new HttpClient()
             {

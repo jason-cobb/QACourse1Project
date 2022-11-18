@@ -42,12 +42,11 @@ namespace CodeLouisvilleUnitTestProjectTests
             Car car = new Car();
             string Honda = car.Make;
             string Civic = car.Model;
-
+            //assert
             Func<Task> act = async () => { await car.IsValidModelForMakeAsync(); };
 
-            //assert
             await act.Should().NotThrowAsync<ArgumentNullException>();
-           // car.Model.Should().NotBeNull();
+          
         }
         [Fact]
         public async Task IsValidModelForMakeAsyncTestWrongModel()
@@ -57,12 +56,12 @@ namespace CodeLouisvilleUnitTestProjectTests
             string Honda = car.Make;
             string Camry = car.Model;
 
+            //assert
             Func<Task> act = async () => { await car.IsValidModelForMakeAsync(); };
 
-            //assert
             await act.Should().ThrowAsync<ArgumentNullException>();
-
         }
+
         [Fact]//Negative test
         public async Task WasModelMadeInYearAsyncNegative()
         {
